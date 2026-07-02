@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-desk: #d9cdb0;
+  --color-desk-deep: #cbbd9a;
+  --color-ink: #1c1a17;
+  --color-ink-soft: #4a453c;
+  --color-paper: #f6f1e3;
+  --color-paper-dim: #ece4cf;
+  --color-orange: #e8590c;
+  --color-blue: #2464c4;
+  --color-green: #2f9e44;
+  --color-purple: #8f3fb8;
+  --color-red: #e03131;
+  --color-yellow: #f5b41f;
+  --color-term-bg: #141210;
+  --color-term-green: #6fdd8b;
+  --color-term-dim: #b9b3a4;
+
+  --font-pixel: var(--font-silkscreen), monospace;
+  --font-term: var(--font-vt323), monospace;
+  --font-mono: var(--font-plex), monospace;
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--color-desk);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+}
+
+/* Dithered desktop wallpaper: fine checker pattern, very low contrast */
+.wallpaper {
+  background-color: var(--color-desk);
+  background-image:
+    repeating-conic-gradient(
+      var(--color-desk-deep) 0% 25%,
+      transparent 0% 50%
+    );
+  background-size: 4px 4px;
+}
+
+.shadow-hard {
+  box-shadow: 5px 5px 0 0 var(--color-ink);
+}
+.shadow-hard-sm {
+  box-shadow: 3px 3px 0 0 var(--color-ink);
+}
+
+.pixel-corners {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
+.selectable-none {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+::selection {
+  background: var(--color-orange);
+  color: var(--color-paper);
+}
+
+/* Terminal caret blink */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret-blink {
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret-blink {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollbars that match the OS chrome */
+.os-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+.os-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.os-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+  border: 2px solid var(--color-paper);
+}
+.os-scroll::-webkit-scrollbar-track {
+  background: var(--color-paper-dim);
+}
