@@ -57,7 +57,7 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
         className="pointer-events-none absolute right-6 bottom-16 text-right selectable-none max-md:hidden"
         style={{ opacity: 0.05 }}
       >
-        <div className="font-pixel text-6xl tracking-tight text-ink">HaadOS</div>
+        <div className="font-display text-6xl tracking-tight text-ink">HaadOS</div>
         <div className="mt-2 font-mono text-sm text-ink">
           v18.0 — student build · Lahore
         </div>
@@ -76,7 +76,7 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
             <span className="h-9 w-9 transition-transform group-hover:-translate-y-0.5">
               {icon}
             </span>
-            <span className="border border-transparent bg-bg/40 px-1 font-pixel text-[9px] leading-tight text-dim group-hover:border-line group-hover:text-ink">
+            <span className="border border-transparent bg-bg/40 px-1 font-display text-[9px] leading-tight text-dim group-hover:border-line group-hover:text-ink">
               {label}
             </span>
           </button>

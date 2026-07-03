@@ -7,7 +7,7 @@ export function ProjectsApp() {
   return (
     <div className="flex h-full flex-col bg-surface">
       <div className="flex items-center gap-3 border-b-2 border-line-soft bg-surface-2 px-4 py-2">
-        <span className="font-pixel text-[10px] text-dim">
+        <span className="font-display text-[10px] text-dim">
           {PROJECTS.length} items
         </span>
         <span className="font-mono text-[11px] text-faint">sorted by impact</span>
@@ -26,7 +26,7 @@ export function ProjectsApp() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <span
-                    className={`border px-1.5 py-0.5 font-pixel text-[8px] tracking-wider ${
+                    className={`border px-1.5 py-0.5 font-display text-[8px] tracking-wider ${
                       p.flagship
                         ? "border-accent/60 bg-accent-soft text-accent"
                         : "border-line text-dim"
@@ -40,7 +40,7 @@ export function ProjectsApp() {
                     </span>
                   )}
                 </div>
-                <h3 className="mt-2.5 font-pixel text-[13px] leading-tight text-ink">
+                <h3 className="mt-2.5 font-display text-[13px] leading-tight text-ink">
                   {p.title}
                 </h3>
                 <div className="mt-1.5 font-mono text-[11px] text-faint">

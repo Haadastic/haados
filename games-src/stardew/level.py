@@ -41,8 +41,14 @@ class Level:
 		# music
 		self.success = pygame.mixer.Sound('audio/success.ogg')
 		self.success.set_volume(0.3)
-		self.music = pygame.mixer.Sound('audio/music.ogg')
-		self.music.play(loops = -1)
+		# Stream the background track through mixer.music instead of decoding
+		# the whole file into a looping Sound — that stutters in the browser.
+		try:
+			pygame.mixer.music.load('audio/music.ogg')
+			pygame.mixer.music.set_volume(0.15)
+			pygame.mixer.music.play(-1)
+		except pygame.error:
+			pass
 
 	def setup(self):
 		tmx_data = load_pygame('data/map.tmx')

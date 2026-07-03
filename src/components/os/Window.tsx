@@ -97,7 +97,7 @@ export function Window({
         onPointerUp={onTitleUp}
         onDoubleClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
       >
-        <span className="font-pixel text-[10px] tracking-wide text-dim">
+        <span className="font-display text-[11px] font-medium tracking-wide text-dim">
           {win.title}
         </span>
         <div className="ml-auto flex items-center gap-1.5">
@@ -105,17 +105,30 @@ export function Window({
             label="Minimize"
             className="bg-line text-ink/70 hover:bg-dim hover:text-bg"
             onClick={() => dispatch({ type: "MINIMIZE", id: win.id })}
-          />
+          >
+            <span className="block h-[1.5px] w-2 bg-current" />
+          </TitleButton>
           <TitleButton
             label="Maximize"
             className="bg-line text-ink/70 hover:bg-dim hover:text-bg max-md:hidden"
             onClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
-          />
+          >
+            <span className="block h-2 w-2 border-[1.5px] border-current" />
+          </TitleButton>
           <TitleButton
             label="Close"
-            className="bg-accent text-bg hover:brightness-110"
+            className="bg-accent text-[color:var(--on-accent)] hover:brightness-110"
             onClick={() => dispatch({ type: "CLOSE", id: win.id })}
-          />
+          >
+            <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" aria-hidden>
+              <path
+                d="M2 2l6 6M8 2l-6 6"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </TitleButton>
         </div>
       </div>
 
@@ -138,17 +151,21 @@ function TitleButton({
   label,
   onClick,
   className = "",
+  children,
 }: {
   label: string;
   onClick: () => void;
   className?: string;
+  children?: ReactNode;
 }) {
   return (
     <button
       aria-label={label}
       title={label}
       onClick={onClick}
-      className={`h-4 w-4 border border-bg/30 transition-colors focus-visible:outline-1 focus-visible:outline-accent ${className}`}
-    />
+      className={`flex h-4 w-4 items-center justify-center border border-bg/30 transition-colors focus-visible:outline-1 focus-visible:outline-accent ${className}`}
+    >
+      {children}
+    </button>
   );
 }

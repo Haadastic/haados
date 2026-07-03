@@ -5,6 +5,11 @@ from level import Level
 
 class Game:
 	def __init__(self):
+		# Larger mixer buffer = fewer audio dropouts/crackle in the browser.
+		try:
+			pygame.mixer.pre_init(44100, -16, 2, 1024)
+		except pygame.error:
+			pass
 		pygame.init()
 		self.screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 		pygame.display.set_caption('Sprout land')

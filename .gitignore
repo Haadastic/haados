@@ -8,3 +8,9 @@ games-src/*/build/
 .tmp/
 *.tsbuildinfo
 next-env.d.ts
+
+# monsters game — temporarily removed, source kept locally
+games-src/monsters/
+
+# agent instructions — not part of the published site
+CLAUDE.md

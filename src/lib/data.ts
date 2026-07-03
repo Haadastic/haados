@@ -27,6 +27,30 @@ export const PROJECTS: Project[] = [
     flagship: true,
   },
   {
+    slug: "chip8",
+    chip: "EMULATOR",
+    title: "CHIP-8 Emulator",
+    meta: "Python · runs classic ROMs",
+    description:
+      "The guts of an 8-bit virtual machine, one opcode at a time — my first emulator.",
+    link: {
+      label: "github.com/haadastic/chip-8",
+      url: "https://github.com/haadastic/chip-8",
+    },
+  },
+  {
+    slug: "gameboy",
+    chip: "EMULATOR",
+    title: "Game Boy Emulator",
+    meta: "C++ · alpha",
+    description:
+      "A DMG Game Boy in C++ — CPU, memory map and PPU. The harder machine, tackled after CHIP-8.",
+    link: {
+      label: "github.com/haadastic/gameboy-",
+      url: "https://github.com/haadastic/gameboy-",
+    },
+  },
+  {
     slug: "discord-bot",
     chip: "COMMUNITY",
     title: "Discord Bot",
@@ -34,20 +58,12 @@ export const PROJECTS: Project[] = [
     description: "Custom-server bot that just kept getting used.",
   },
   {
-    slug: "emulators",
-    chip: "LOW-LEVEL",
-    title: "Emulators",
-    meta: "CHIP-8 · Game Boy",
-    description:
-      "Writing the guts of old machines, one opcode at a time.",
-  },
-  {
     slug: "pygame-trio",
     chip: "GAMES",
-    title: "Pygame Trio",
-    meta: "Ninja · Sprout Land · Monsters",
+    title: "Pygame Games",
+    meta: "Ninja · Sprout Land",
     description:
-      "Three full games — playable right now in the arcade, compiled to WebAssembly.",
+      "Full games built in Pygame and compiled to WebAssembly — Ninja and Sprout Land are playable in the arcade right now.",
   },
   {
     slug: "roblox",
@@ -114,15 +130,28 @@ export const GAMES: Game[] = [
     controls: "arrows · Q/E switch tools · Space acts · Enter shop",
     playPath: "/games/stardew/index.html",
   },
-  {
-    slug: "monsters",
-    file: "monsters.py",
-    title: "Monster Hunter",
-    meta: "Pygame · creature battles",
-    controls: "WASD/arrows · Space confirms · Enter index",
-    playPath: "/games/monsters/index.html",
-  },
 ];
+
+/* Structured about — rendered in the About window as a name hero + sections. */
+export const ABOUT = {
+  first: "Haad",
+  last: "Wajid",
+  location: "Lahore, Pakistan",
+  role: "18 · self-taught · builder",
+  lede: "I'm 18, doing my A-levels at LGS in Lahore. I've been writing code since I was 13 — it started the way it should, with Minecraft autoclickers and small cheats, because that's the kind of problem a 13-year-old is properly motivated to solve. I just kept going.",
+  lede2:
+    "I grew up on Michael Reeves chaos, Primeagen rants, and indie devs shipping games from their bedrooms. I like difficult problems and I learn fast — everything else is negotiable.",
+  focus: [
+    "Building PaperGenre — exam-prep for O/A-level students, in beta with 300+ users. Built from the inside, by someone sitting the exams.",
+    "Writing emulators — a CHIP-8 in Python and a Game Boy in C++ — and learning Rust alongside OS development.",
+    "Shipping games — Roblox (1.8M+ visits) and the Pygame trio you can play in the Arcade.",
+  ],
+  credentials: [
+    "Stanford Machine Learning Specialization (Andrew Ng)",
+    "Intern @ Qryptec — quantum cryptography, NUST 5G Lab",
+    "Hosted the LGS computer science olympiad",
+  ],
+};
 
 export const ABOUT_TEXT = `Hi, I'm Haad.
 
@@ -138,7 +167,7 @@ just... kept going.
 WHAT I'M INTO
   > game dev — shipped Roblox games (1.8M visits contributed),
     built Pygame games you can play in the Arcade
-  > emulation — CHIP-8 and Game Boy emulators
+  > emulation — a CHIP-8 in Python, a Game Boy in C++
   > operating systems & low-level stuff — currently learning
     Rust alongside OS development
   > currently migrating from VSCode to Emacs so I can connect
@@ -160,7 +189,8 @@ is negotiable.`;
 export const CONTACT = {
   headline: "Let's build something.",
   sub: "Preferably something hard.",
-  email: "papergenre@gmail.com",
+  email: "haadastick@gmail.com",
+  discord: "haadastic",
   github: "https://github.com/haadastic",
   githubLabel: "github.com/haadastic",
   papergenre: "https://papergenre.com",
