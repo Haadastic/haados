@@ -136,26 +136,20 @@ export const GAMES: Game[] = [
 export const ABOUT = {
   first: "Haad",
   last: "Wajid",
-  location: "Lahore, Pakistan",
+  location: "Islamabad, Pakistan",
   role: "18 · self-taught · builder",
-  lede: "I'm 18, doing my A-levels at LGS in Lahore. I've been writing code since I was 13 — it started the way it should, with Minecraft autoclickers and small cheats, because that's the kind of problem a 13-year-old is properly motivated to solve. I just kept going.",
+  lede: "I'm 18, doing my A-levels at LGS in Islamabad. I've been writing code since I was 13 — it started the way it should, with Minecraft autoclickers and small cheats, because that's the kind of problem a 13-year-old is properly motivated to solve. I just kept going.",
   lede2:
     "I grew up on Michael Reeves chaos, Primeagen rants, and indie devs shipping games from their bedrooms. I like difficult problems and I learn fast — everything else is negotiable.",
   focus: [
-    "Building PaperGenre — exam-prep for O/A-level students, in beta with 300+ users. Built from the inside, by someone sitting the exams.",
-    "Writing emulators — a CHIP-8 in Python and a Game Boy in C++ — and learning Rust alongside OS development.",
-    "Shipping games — Roblox (1.8M+ visits) and the Pygame trio you can play in the Arcade.",
-  ],
-  credentials: [
-    "Stanford Machine Learning Specialization (Andrew Ng)",
-    "Intern @ Qryptec — quantum cryptography, NUST 5G Lab",
-    "Hosted the LGS computer science olympiad",
+    "Right now, it's all PaperGenre — exam-prep for O/A-level students, in beta with 300+ users. Built from the inside, by someone actually sitting the exams.",
+    "The rest is shipped and done: emulators (a CHIP-8 in Python, a Game Boy in C++), Roblox games with 1.8M+ visits, and the Pygame trio you can play right here in the Arcade.",
   ],
 };
 
 export const ABOUT_TEXT = `Hi, I'm Haad.
 
-18 years old, doing my A-levels at LGS, Lahore.
+18 years old, doing my A-levels at LGS, Islamabad.
 
 I've been writing code since I was 13. It started the way it
 should: Minecraft autoclickers and small cheats, because that
@@ -178,17 +172,12 @@ WHAT I'M BUILDING
   in beta with 300+ users. I'm a student sitting these exams
   myself, so it's built from the inside.
 
-CREDENTIALS, SUCH AS THEY ARE
-  > Stanford Machine Learning Specialization
-  > Intern @ Qryptec (quantum cryptography, NUST 5G Lab)
-  > Hosted the LGS computer science olympiad
-
 I like difficult problems and I learn fast. Everything else
 is negotiable.`;
 
 export const CONTACT = {
-  headline: "Let's build something.",
-  sub: "Preferably something hard.",
+  headline: "hit me up",
+  sub: "the buttons below actually work, i checked",
   email: "haadastick@gmail.com",
   discord: "haadastic",
   github: "https://github.com/haadastic",

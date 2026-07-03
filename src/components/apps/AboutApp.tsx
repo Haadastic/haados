@@ -52,21 +52,6 @@ export function AboutApp() {
           </ul>
         </section>
 
-        {/* Credentials */}
-        <section className="mt-6">
-          <h2 className="font-display text-[11px] font-medium tracking-[0.2em] text-faint uppercase">
-            Credentials, such as they are
-          </h2>
-          <ul className="mt-3 flex flex-col gap-1.5">
-            {ABOUT.credentials.map((c, i) => (
-              <li key={i} className="flex gap-2.5 font-mono text-[12px] leading-relaxed text-dim">
-                <span className="text-accent">›</span>
-                <span>{c}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <p className="mt-7 font-mono text-[12px] leading-relaxed text-faint">
           I like difficult problems and I learn fast. Everything else is
           negotiable.
