@@ -154,3 +154,16 @@ body {
 .os-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* Pet: little heart that floats up when you play with your companion */
+@keyframes heartfloat {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  25% { opacity: 1; transform: translateY(-10px) scale(1); }
+  100% { opacity: 0; transform: translateY(-40px) scale(1); }
+}
+.pet-heart {
+  animation: heartfloat 900ms ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pet-heart { animation-duration: 0.01ms; opacity: 0; }
+}
