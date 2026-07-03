@@ -16,7 +16,7 @@ const NEOFETCH = String.raw`
   guest@haados
   ------------
   os        haadOS v18 (student build)
-  host      LGS, Lahore
+  host      LGS, Islamabad
   uptime    18 years
   shell     a-levels (ongoing)
   editor    vscode -> emacs (in progress)

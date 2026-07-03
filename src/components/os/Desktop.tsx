@@ -58,9 +58,6 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
         style={{ opacity: 0.05 }}
       >
         <div className="font-display text-6xl tracking-tight text-ink">HaadOS</div>
-        <div className="mt-2 font-mono text-sm text-ink">
-          v18.0 — student build · Lahore
-        </div>
       </div>
 
       <MenuBar />
