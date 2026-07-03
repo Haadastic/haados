@@ -1,17 +1,8 @@
-/* Line icons, 24-grid, 1.5px stroke — quiet and precise. */
+/* Pixel-grid icons, 16x16, crisp edges — warm and boxy. */
 
-function I({ children }: { children: React.ReactNode }) {
+function Px({ children }: { children: React.ReactNode }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-full w-full"
-      aria-hidden
-    >
+    <svg viewBox="0 0 16 16" className="h-full w-full" shapeRendering="crispEdges" aria-hidden>
       {children}
     </svg>
   );
@@ -19,91 +10,72 @@ function I({ children }: { children: React.ReactNode }) {
 
 export function IconFolder() {
   return (
-    <I>
-      <path d="M3.5 6.5a2 2 0 0 1 2-2h3.6l2 2.5h7.4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" />
-    </I>
+    <Px>
+      <path d="M1 4h5l1 1.5h8V13H1z" fill="#f08a3c" stroke="#17110a" strokeWidth="1" />
+      <rect x="1" y="6.5" width="14" height="1" fill="#17110a" opacity="0.25" />
+    </Px>
   );
 }
 
 export function IconFile() {
   return (
-    <I>
-      <path d="M6.5 3.5h7l4 4v13h-11z" />
-      <path d="M13.5 3.5v4h4" />
-      <path d="M9 12h6M9 15.5h4.5" />
-    </I>
+    <Px>
+      <path d="M3 1.5h7l3 3V14.5H3z" fill="#f1e7d3" stroke="#17110a" strokeWidth="1" />
+      <path d="M10 1.5v3h3" fill="none" stroke="#17110a" strokeWidth="1" />
+      <rect x="5" y="7" width="6" height="1" fill="#f08a3c" />
+      <rect x="5" y="9.5" width="6" height="1" fill="#17110a" />
+      <rect x="5" y="12" width="4" height="1" fill="#17110a" />
+    </Px>
   );
 }
 
 export function IconGamepad() {
   return (
-    <I>
-      <path d="M7 8.5h10a4.5 4.5 0 0 1 4.4 5.4l-.6 3a2.6 2.6 0 0 1-4.6 1l-1.4-1.9H9.2l-1.4 1.9a2.6 2.6 0 0 1-4.6-1l-.6-3A4.5 4.5 0 0 1 7 8.5z" />
-      <path d="M8.5 12v3M7 13.5h3" />
-      <circle cx="15.4" cy="12.6" r="0.2" />
-      <circle cx="17.6" cy="14.4" r="0.2" />
-    </I>
+    <Px>
+      <rect x="1.5" y="5.5" width="13" height="7" rx="0" fill="#94c07a" stroke="#17110a" strokeWidth="1" />
+      <rect x="3.5" y="8" width="1.2" height="3" fill="#17110a" />
+      <rect x="2.5" y="9" width="3.2" height="1.2" fill="#17110a" />
+      <rect x="10" y="8.2" width="1.6" height="1.6" fill="#17110a" />
+      <rect x="12" y="9.8" width="1.6" height="1.6" fill="#17110a" />
+    </Px>
   );
 }
 
 export function IconTerminal() {
   return (
-    <I>
-      <rect x="3" y="4.5" width="18" height="15" rx="2" />
-      <path d="m7 9.5 3 2.75L7 15" />
-      <path d="M12.5 15H17" />
-    </I>
+    <Px>
+      <rect x="1.5" y="2.5" width="13" height="11" fill="#17110a" stroke="#3f3220" strokeWidth="1" />
+      <path d="M3.5 5.5 6 8l-2.5 2.5" fill="none" stroke="#f08a3c" strokeWidth="1.3" />
+      <rect x="7" y="10" width="5" height="1.3" fill="#f08a3c" />
+    </Px>
   );
 }
 
 export function IconMail() {
   return (
-    <I>
-      <rect x="3" y="5.5" width="18" height="13" rx="2" />
-      <path d="m3.5 7 8.5 6 8.5-6" />
-    </I>
+    <Px>
+      <rect x="1.5" y="3.5" width="13" height="9" fill="#e6b643" stroke="#17110a" strokeWidth="1" />
+      <path d="M1.5 3.5 8 9l6.5-5.5" fill="none" stroke="#17110a" strokeWidth="1.1" />
+    </Px>
   );
 }
 
 export function IconExtern() {
   return (
-    <I>
-      <path d="M9 6h9v9" />
-      <path d="M18 6 6 18" />
-    </I>
+    <Px>
+      <path d="M6 4h6v6" fill="none" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M11.5 4.5 5 11" stroke="currentColor" strokeWidth="1.4" />
+    </Px>
   );
 }
 
-export function IconMinimize() {
+export function IconPaw() {
   return (
-    <I>
-      <path d="M6 12h12" />
-    </I>
-  );
-}
-
-export function IconClose() {
-  return (
-    <I>
-      <path d="m7 7 10 10M17 7 7 17" />
-    </I>
-  );
-}
-
-export function IconMaximize() {
-  return (
-    <I>
-      <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
-    </I>
-  );
-}
-
-export function IconCat() {
-  return (
-    <I>
-      <path d="M5.5 10.5V5l3 2.5h7L18.5 5v5.5a6.5 6.5 0 0 1-13 0z" />
-      <path d="M9.5 12h.01M14.5 12h.01" strokeWidth="2" />
-      <path d="M10.5 15c.5.6 2.5.6 3 0" />
-    </I>
+    <Px>
+      <circle cx="5" cy="6" r="1.4" fill="currentColor" />
+      <circle cx="8" cy="5" r="1.4" fill="currentColor" />
+      <circle cx="11" cy="6" r="1.4" fill="currentColor" />
+      <path d="M5.5 10c0-1.6 1.1-2.5 2.5-2.5S10.5 8.4 10.5 10 9.4 12.5 8 12.5 5.5 11.6 5.5 10z" fill="currentColor" />
+    </Px>
   );
 }

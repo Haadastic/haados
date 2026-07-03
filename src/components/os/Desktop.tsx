@@ -45,7 +45,7 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
 
   useEffect(() => {
     if (autoOpenAbout) {
-      const t = setTimeout(() => dispatch({ type: "OPEN", appId: "about" }), 300);
+      const t = setTimeout(() => dispatch({ type: "OPEN", appId: "about" }), 280);
       return () => clearTimeout(t);
     }
   }, [autoOpenAbout, dispatch]);
@@ -54,27 +54,29 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
     <div className="wallpaper fixed inset-0 overflow-hidden">
       {/* Watermark */}
       <div
-        className="pointer-events-none absolute -top-24 -left-8 font-serif italic selectable-none"
-        style={{ fontSize: "clamp(180px, 26vw, 420px)", lineHeight: 1, color: "var(--color-ink)", opacity: 0.035 }}
+        className="pointer-events-none absolute right-6 bottom-16 text-right selectable-none max-md:hidden"
+        style={{ opacity: 0.05 }}
       >
-        haadOS
+        <div className="font-pixel text-6xl tracking-tight text-ink">HaadOS</div>
+        <div className="mt-2 font-mono text-sm text-ink">
+          v18.0 — student build · Lahore
+        </div>
       </div>
 
       <MenuBar />
 
       {/* Desktop icons */}
-      <div className="absolute top-16 left-5 flex flex-col gap-2 max-md:right-5 max-md:grid max-md:grid-cols-4">
+      <div className="absolute top-14 left-4 flex flex-col gap-1.5 max-md:right-4 max-md:grid max-md:grid-cols-4">
         {DESKTOP_ICONS.map(({ appId, label, icon }) => (
           <button
             key={appId}
             onClick={() => dispatch({ type: "OPEN", appId })}
-            onDoubleClick={(e) => e.preventDefault()}
-            className="group flex w-[76px] flex-col items-center gap-1.5 rounded-lg p-2 transition-colors hover:bg-line-soft/50 focus-visible:outline-1 focus-visible:outline-accent"
+            className="group flex w-[78px] flex-col items-center gap-1.5 border-2 border-transparent p-2 transition-colors hover:border-line-soft hover:bg-surface/50 focus-visible:outline-1 focus-visible:outline-accent"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line-soft bg-surface/70 p-2.5 text-dim transition-colors group-hover:border-line group-hover:text-ink">
+            <span className="h-9 w-9 transition-transform group-hover:-translate-y-0.5">
               {icon}
             </span>
-            <span className="font-mono text-[11px] text-dim group-hover:text-ink">
+            <span className="border border-transparent bg-bg/40 px-1 font-pixel text-[9px] leading-tight text-dim group-hover:border-line group-hover:text-ink">
               {label}
             </span>
           </button>

@@ -11,6 +11,18 @@ import {
 export const ACCENTS = ["ember", "tide", "moss", "gold", "slate"] as const;
 export type Accent = (typeof ACCENTS)[number];
 
+/* Color = Creature: each theme summons a matching pet */
+export const ACCENT_META: Record<
+  Accent,
+  { dot: string; label: string; pet: string; creature: string }
+> = {
+  ember: { dot: "#f08a3c", label: "ember", pet: "fox", creature: "fox" },
+  tide: { dot: "#6bb6d6", label: "tide", pet: "skeleton", creature: "skeleton" },
+  moss: { dot: "#94c07a", label: "moss", pet: "turtle", creature: "turtle" },
+  gold: { dot: "#e6b643", label: "gold", pet: "rubber-duck", creature: "duck" },
+  slate: { dot: "#b0a89c", label: "slate", pet: "totoro", creature: "totoro" },
+};
+
 const ThemeContext = createContext<{
   accent: Accent;
   setAccent: (a: Accent) => void;
@@ -27,9 +39,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (savedAccent && ACCENTS.includes(savedAccent)) setAccentState(savedAccent);
     const savedPet = localStorage.getItem("haados-pet");
     if (savedPet === "0") setPetOnState(false);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPetOnState(false);
-    }
   }, []);
 
   useEffect(() => {

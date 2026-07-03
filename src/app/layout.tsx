@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Newsreader, JetBrains_Mono } from "next/font/google";
+import { Silkscreen, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const newsreader = Newsreader({
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+const silkscreen = Silkscreen({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-newsreader",
+  variable: "--font-silkscreen",
 });
 
 const jetbrains = JetBrains_Mono({
@@ -18,7 +17,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "HaadOS — Haad's portfolio",
   description:
-    "Haad, 18 — building things that shouldn't work yet. PaperGenre, emulators, games. Boot HaadOS and look around; a pixel pet comes free.",
+    "Haad, 18. Builder of PaperGenre, emulators, and games. Boot up HaadOS, poke around, and adopt a pixel pet.",
 };
 
 export default function RootLayout({
@@ -26,7 +25,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} ${jetbrains.variable} antialiased`}>
+      <body className={`${silkscreen.variable} ${jetbrains.variable} antialiased`}>
         {children}
       </body>
     </html>

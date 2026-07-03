@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useWM } from "@/components/os/WindowManager";
-import { ABOUT, CONTACT, PROJECTS, type AppId } from "@/lib/data";
+import { ABOUT_TEXT, CONTACT, PROJECTS, type AppId } from "@/lib/data";
 
 type Line = { text: string; kind?: "in" | "err" | "accent" };
 
 const NEOFETCH = String.raw`
-  ██  ██  ████   ████  ████▄
-  ██████ ██▄▄██ ██▄▄██ ██  ██
-  ██  ██ ██  ██ ██  ██ ████▀
+   __  __              __ ____  _____
+  / / / /___ _____ ___/ // __ \/ ___/
+ / /_/ / __ '/ __ '/ _  // / / /\__ \
+/ __  / /_/ / /_/ / /_/ // /_/ /___/ /
+/_/ /_/\__,_/\__,_/\__,_/ \____//____/
 
   guest@haados
   ------------
@@ -20,7 +22,7 @@ const NEOFETCH = String.raw`
   editor    vscode -> emacs (in progress)
   lang      learning rust
   flagship  papergenre.com (300+ beta users)
-  pet       one (1) cat, chases cursors`;
+  pet       pick a color in the dock`;
 
 const HELP = `commands:
   help           this
@@ -65,9 +67,7 @@ export function TerminalApp() {
         print(HELP);
         break;
       case "ls":
-        print(
-          "about.txt  projects/  arcade/  contact.card  secrets/ (permission denied)"
-        );
+        print("about.txt  projects/  arcade/  contact.card  secrets/ (permission denied)");
         break;
       case "projects":
         print(
@@ -88,15 +88,7 @@ export function TerminalApp() {
         break;
       }
       case "cat":
-        if (arg.includes("about"))
-          print(
-            ABOUT.headline,
-            "",
-            ...ABOUT.paragraphs,
-            "",
-            "// currently",
-            ...ABOUT.currently.map((c) => `  - ${c}`)
-          );
+        if (arg.includes("about")) print(ABOUT_TEXT);
         else print({ text: `cat: ${arg || "?"}: no such file`, kind: "err" });
         break;
       case "neofetch":
@@ -127,9 +119,8 @@ export function TerminalApp() {
       case "emacs":
         print("connecting with the old uncs... M-x butterfly");
         break;
-      case "cat!":
       case "pet":
-        print("the cat is already out. it answers to nobody.");
+        print("pick a color in the dock — each one is a different animal.");
         break;
       default:
         print({ text: `${name}: command not found. try 'help'`, kind: "err" });
@@ -137,20 +128,14 @@ export function TerminalApp() {
   }
 
   return (
-    <div
-      className="flex h-full flex-col bg-[#0a0f15]"
-      onClick={() => inputRef.current?.focus()}
-    >
-      <div
-        ref={scrollRef}
-        className="os-scroll min-h-0 flex-1 overflow-y-auto p-4"
-      >
+    <div className="flex h-full flex-col bg-bg" onClick={() => inputRef.current?.focus()}>
+      <div ref={scrollRef} className="os-scroll min-h-0 flex-1 overflow-y-auto p-3.5">
         {lines.map((l, i) => (
           <pre
             key={i}
             className={`font-mono text-xs leading-[1.65] whitespace-pre-wrap ${
               l.kind === "err"
-                ? "text-[#e07a5f]"
+                ? "text-[#e8825a]"
                 : l.kind === "in"
                   ? "text-ink"
                   : l.kind === "accent"
@@ -163,7 +148,7 @@ export function TerminalApp() {
         ))}
       </div>
       <form
-        className="flex items-center gap-2 border-t border-line-soft px-4 py-2.5"
+        className="flex items-center gap-2 border-t-2 border-line-soft px-3.5 py-2.5"
         onSubmit={(e) => {
           e.preventDefault();
           run(input);

@@ -8,9 +8,9 @@ import {
   IconGamepad,
   IconTerminal,
   IconMail,
-  IconCat,
+  IconPaw,
 } from "./icons";
-import { ACCENTS, useTheme, type Accent } from "./theme";
+import { ACCENTS, ACCENT_META, useTheme, type Accent } from "./theme";
 
 const DOCK_APPS: { appId: AppId; label: string; icon: React.ReactNode }[] = [
   { appId: "projects", label: "projects", icon: <IconFolder /> },
@@ -20,21 +20,13 @@ const DOCK_APPS: { appId: AppId; label: string; icon: React.ReactNode }[] = [
   { appId: "contact", label: "contact", icon: <IconMail /> },
 ];
 
-const DOT_COLORS: Record<Accent, string> = {
-  ember: "#e29b6a",
-  tide: "#8fbedf",
-  moss: "#a9c88e",
-  gold: "#d9b45f",
-  slate: "#9aa7b5",
-};
-
 export function Dock() {
   const { state, dispatch } = useWM();
   const { accent, setAccent, petOn, setPetOn } = useTheme();
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-[110] flex justify-center max-md:bottom-0 max-md:px-0">
-      <div className="flex items-center gap-1.5 rounded-2xl border border-line-soft bg-surface/80 px-2.5 py-2 win-shadow-dim backdrop-blur-md max-md:w-full max-md:justify-around max-md:rounded-none max-md:border-x-0 max-md:border-b-0">
+    <div className="fixed inset-x-0 bottom-4 z-[110] flex justify-center max-md:bottom-0">
+      <div className="flex items-center gap-1.5 border-2 border-line bg-surface px-2.5 py-2 win-soft-dim max-md:w-full max-md:justify-around max-md:border-x-0 max-md:border-b-0">
         {DOCK_APPS.map(({ appId, label, icon }) => {
           const open = state.windows.some((w) => w.appId === appId);
           return (
@@ -43,11 +35,11 @@ export function Dock() {
               title={label}
               aria-label={label}
               onClick={() => dispatch({ type: "OPEN", appId })}
-              className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent p-2.5 text-dim transition-all hover:-translate-y-0.5 hover:border-line-soft hover:bg-line-soft hover:text-ink"
+              className="group relative flex h-10 w-10 items-center justify-center border-2 border-transparent p-1.5 transition-colors hover:border-line hover:bg-surface-2"
             >
-              {icon}
+              <span className="h-6 w-6">{icon}</span>
               <span
-                className={`absolute -bottom-1 h-1 w-1 rounded-full transition-opacity ${
+                className={`absolute -bottom-[3px] h-[3px] w-3 transition-opacity ${
                   open ? "bg-accent opacity-100" : "opacity-0"
                 }`}
               />
@@ -55,39 +47,37 @@ export function Dock() {
           );
         })}
 
-        <div className="mx-1.5 h-6 w-px bg-line-soft max-md:hidden" />
+        <div className="mx-1.5 h-7 w-0.5 bg-line max-md:hidden" />
 
         {/* Color = Creature */}
         <div className="flex items-center gap-1.5 max-md:hidden">
-          {(Object.keys(DOT_COLORS) as Accent[]).map((a) => (
+          {(ACCENTS as readonly Accent[]).map((a) => (
             <button
               key={a}
-              title={`${a} theme`}
+              title={`${ACCENT_META[a].label} · ${ACCENT_META[a].creature}`}
               aria-label={`${a} theme`}
               onClick={() => setAccent(a)}
-              className={`h-3.5 w-3.5 rounded-full transition-transform hover:scale-125 ${
-                accent === a ? "ring-2 ring-ink/60 ring-offset-2 ring-offset-surface" : ""
+              className={`h-4 w-4 border-2 transition-transform hover:scale-110 ${
+                accent === a ? "border-ink" : "border-transparent"
               }`}
-              style={{ backgroundColor: DOT_COLORS[a] }}
+              style={{ backgroundColor: ACCENT_META[a].dot }}
             />
           ))}
         </div>
 
-        <div className="mx-1.5 h-6 w-px bg-line-soft max-md:hidden" />
+        <div className="mx-1.5 h-7 w-0.5 bg-line max-md:hidden" />
 
         <button
-          title={petOn ? "shoo the cat" : "summon the cat"}
+          title={petOn ? `hide ${ACCENT_META[accent].creature}` : `summon ${ACCENT_META[accent].creature}`}
           aria-label="toggle pet"
           onClick={() => setPetOn(!petOn)}
-          className={`flex h-10 w-10 items-center justify-center rounded-xl p-2.5 transition-all hover:-translate-y-0.5 max-md:hidden ${
-            petOn ? "bg-accent-soft text-accent" : "text-faint hover:text-dim"
+          className={`flex h-10 w-10 items-center justify-center border-2 p-2 transition-colors max-md:hidden ${
+            petOn ? "border-line bg-accent-soft text-accent" : "border-transparent text-faint hover:text-dim"
           }`}
         >
-          <IconCat />
+          <IconPaw />
         </button>
       </div>
     </div>
   );
 }
-
-export { ACCENTS };

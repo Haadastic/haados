@@ -1,163 +1,83 @@
 "use client";
 
-/* Desktop cat, adapted from the classic oneko (sprite via webpets). */
+/* GIF desktop pet (sprites from sankalpaacharya/webpets).
+   Wanders along the desktop floor and ambles toward the cursor. */
 
 import { useEffect, useRef } from "react";
-
-type Frame = [number, number];
-const SPRITES: Record<string, Frame[]> = {
-  idle: [[-3, -3]],
-  alert: [[-7, -3]],
-  scratchSelf: [[-5, 0], [-6, 0], [-7, 0]],
-  scratchWallN: [[0, 0], [0, -1]],
-  scratchWallS: [[-7, -1], [-6, -2]],
-  scratchWallE: [[-2, -2], [-2, -3]],
-  scratchWallW: [[-4, 0], [-4, -1]],
-  tired: [[-3, -2]],
-  sleeping: [[-2, 0], [-2, -1]],
-  N: [[-1, -2], [-1, -3]],
-  NE: [[0, -2], [0, -3]],
-  E: [[-3, 0], [-3, -1]],
-  SE: [[-5, -1], [-5, -2]],
-  S: [[-6, -3], [-7, -2]],
-  SW: [[-5, -3], [-6, -1]],
-  W: [[-4, -2], [-4, -3]],
-  NW: [[-1, 0], [-1, -1]],
-};
+import { ACCENT_META, useTheme } from "./theme";
 
 export function Pet() {
-  const ref = useRef<HTMLDivElement>(null);
+  const { accent } = useTheme();
+  const meta = ACCENT_META[accent];
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const wrap = wrapRef.current;
+    const img = imgRef.current;
+    if (!wrap || !img) return;
 
-    let x = 48;
-    let y = 96;
+    let x = 80;
+    const floor = () => window.innerHeight - 96;
     let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let frame = 0;
-    let idleTime = 0;
-    let idleAnim: string | null = null;
-    let idleFrame = 0;
-    let last = 0;
+    let facing: 1 | -1 = 1;
+    let moving = false;
     let raf = 0;
-    const SPEED = 10;
+    let last = 0;
+    const SPEED = 1.6;
 
     const onMouse = (e: MouseEvent) => {
       mouseX = e.clientX;
-      mouseY = e.clientY;
     };
     window.addEventListener("mousemove", onMouse);
 
-    function setSprite(name: string, f: number) {
-      const frames = SPRITES[name];
-      const [fx, fy] = frames[f % frames.length];
-      el!.style.backgroundPosition = `${fx * 32}px ${fy * 32}px`;
-    }
+    const idleSrc = `/pets/${meta.pet}_idle.gif`;
+    const walkSrc = `/pets/${meta.pet}_walk.gif`;
 
-    function resetIdle() {
-      idleAnim = null;
-      idleFrame = 0;
-    }
+    function step(ts: number) {
+      raf = requestAnimationFrame(step);
+      if (ts - last < 33) return;
+      last = ts;
 
-    function idle() {
-      idleTime += 1;
-      if (idleTime > 10 && Math.random() < 0.005 && idleAnim === null) {
-        const options = ["sleeping", "scratchSelf"];
-        if (x < 32) options.push("scratchWallW");
-        if (y < 64) options.push("scratchWallN");
-        if (x > window.innerWidth - 32) options.push("scratchWallE");
-        if (y > window.innerHeight - 32) options.push("scratchWallS");
-        idleAnim = options[Math.floor(Math.random() * options.length)];
-      }
-      switch (idleAnim) {
-        case "sleeping":
-          if (idleFrame < 8) {
-            setSprite("tired", 0);
-            break;
-          }
-          setSprite("sleeping", Math.floor(idleFrame / 4));
-          if (idleFrame > 192) resetIdle();
-          break;
-        case "scratchWallN":
-        case "scratchWallS":
-        case "scratchWallE":
-        case "scratchWallW":
-        case "scratchSelf":
-          setSprite(idleAnim, idleFrame);
-          if (idleFrame > 9) resetIdle();
-          break;
-        default:
-          setSprite("idle", 0);
-          return;
-      }
-      idleFrame += 1;
-    }
+      const dx = mouseX - x;
+      const dist = Math.abs(dx);
+      const nextMoving = dist > 64;
 
-    function step() {
-      frame += 1;
-      const diffX = x - mouseX;
-      const diffY = y - mouseY;
-      const dist = Math.sqrt(diffX ** 2 + diffY ** 2);
-
-      if (dist < SPEED || dist < 48) {
-        idle();
-        return;
+      if (nextMoving) {
+        const dir = dx > 0 ? 1 : -1;
+        if (dir !== facing) facing = dir as 1 | -1;
+        x += dir * SPEED;
+        x = Math.max(8, Math.min(window.innerWidth - 56, x));
       }
 
-      idleAnim = null;
-      if (idleTime > 1) {
-        setSprite("alert", 0);
-        idleTime = Math.min(idleTime, 7);
-        idleTime -= 1;
-        return;
+      if (nextMoving !== moving) {
+        moving = nextMoving;
+        if (img) img.src = moving ? walkSrc : idleSrc;
       }
-      idleTime = 0;
-
-      let dir = "";
-      dir += diffY / dist > 0.5 ? "N" : "";
-      dir += diffY / dist < -0.5 ? "S" : "";
-      dir += diffX / dist > 0.5 ? "W" : "";
-      dir += diffX / dist < -0.5 ? "E" : "";
-      setSprite(dir || "idle", frame);
-
-      x -= (diffX / dist) * SPEED;
-      y -= (diffY / dist) * SPEED;
-      x = Math.min(Math.max(16, x), window.innerWidth - 16);
-      y = Math.min(Math.max(56, y), window.innerHeight - 24);
-
-      el!.style.left = `${x - 16}px`;
-      el!.style.top = `${y - 16}px`;
+      wrap!.style.transform = `translate(${x}px, ${floor()}px) scaleX(${facing})`;
     }
-
-    function loop(ts: number) {
-      if (ts - last > 100) {
-        last = ts;
-        step();
-      }
-      raf = requestAnimationFrame(loop);
-    }
-    raf = requestAnimationFrame(loop);
+    img.src = idleSrc;
+    raf = requestAnimationFrame(step);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMouse);
     };
-  }, []);
+  }, [meta.pet]);
 
   return (
     <div
-      ref={ref}
+      ref={wrapRef}
       aria-hidden
-      className="pointer-events-none fixed z-[105] h-8 w-8"
-      style={{
-        left: 32,
-        top: 80,
-        backgroundImage: "url(/pets/oneko.gif)",
-        imageRendering: "pixelated",
-        filter: "var(--pet-filter)",
-      }}
-    />
+      className="pointer-events-none fixed top-0 left-0 z-[105] h-12 w-12"
+      style={{ imageRendering: "pixelated" }}
+    >
+      <img
+        ref={imgRef}
+        alt=""
+        className="h-full w-full object-contain object-bottom"
+        style={{ imageRendering: "pixelated" }}
+      />
+    </div>
   );
 }

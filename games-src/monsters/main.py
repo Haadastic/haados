@@ -292,7 +292,7 @@ class Game:
 
 	async def run(self):
 		while True:
-			dt = self.clock.tick() / 1000
+			dt = self.clock.tick(60) / 1000
 			self.display_surface.fill('black')
 
 			# event loop 

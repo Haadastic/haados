@@ -17,10 +17,9 @@ export function MenuBar() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    const tick = () => {
-      const d = new Date();
+    const tick = () =>
       setTime(
-        d
+        new Date()
           .toLocaleString("en-GB", {
             weekday: "short",
             day: "2-digit",
@@ -30,32 +29,27 @@ export function MenuBar() {
           })
           .replace(",", "")
       );
-    };
     tick();
     const t = setInterval(tick, 15000);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[110] flex h-10 items-center gap-1 border-b border-line-soft bg-bg/85 px-4 backdrop-blur-md">
-      <span className="mr-1 inline-block h-2 w-2 rounded-[2px] bg-accent" />
-      <span className="font-serif text-[15px] font-semibold tracking-tight">
-        Haad
-      </span>
-      <nav className="ml-4 flex items-center gap-1 max-md:hidden">
+    <header className="fixed inset-x-0 top-0 z-[110] flex h-10 items-center gap-1 border-b-2 border-line bg-bg-2 px-3">
+      <span className="mr-1.5 inline-block h-2.5 w-2.5 bg-accent" />
+      <span className="mr-3 font-pixel text-[12px] tracking-wide">HaadOS</span>
+      <nav className="flex items-center gap-0.5 max-md:hidden">
         {MENU.map(({ appId, label }) => (
           <button
             key={appId}
             onClick={() => dispatch({ type: "OPEN", appId })}
-            className="rounded-md px-2.5 py-1 font-mono text-xs text-dim transition-colors hover:bg-line-soft hover:text-ink"
+            className="px-2.5 py-1 font-mono text-xs text-dim transition-colors hover:bg-line hover:text-ink"
           >
             {label}
           </button>
         ))}
       </nav>
-      <div className="ml-auto flex items-center gap-3">
-        <span className="font-mono text-xs text-dim">{time}</span>
-      </div>
+      <span className="ml-auto font-pixel text-[10px] text-dim">{time}</span>
     </header>
   );
 }

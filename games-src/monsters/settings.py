@@ -1,5 +1,6 @@
 import pygame
-vector = pygame.Vector2
+import pygame.math
+vector = pygame.math.Vector2
 from sys import exit
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720

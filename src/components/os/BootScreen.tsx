@@ -14,12 +14,12 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
       return () => clearTimeout(t);
     }
     if (done) {
-      const t = setTimeout(onDone, 800);
+      const t = setTimeout(onDone, 850);
       return () => clearTimeout(t);
     }
     const t = setTimeout(
       () => setCount((c) => c + 1),
-      BOOT_LINES[count] === "" ? 180 : 95
+      BOOT_LINES[count] === "" ? 190 : 100
     );
     return () => clearTimeout(t);
   }, [count, done, onDone]);
@@ -40,19 +40,15 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
         {BOOT_LINES.slice(0, count).map((line, i) => (
           <div
             key={i}
-            className={`whitespace-pre ${
-              line.includes("[ warn ]")
-                ? "text-[#d9b45f]"
-                : line.includes("[ ok ]")
-                  ? ""
-                  : "text-ink"
-            }`}
+            className={`whitespace-pre ${line.includes("[ warn ]") ? "text-[#e6b643]" : ""}`}
           >
             {line.includes("[ ok ]") ? (
               <>
                 <span className="text-accent">{"  [ ok ] "}</span>
                 {line.slice(9)}
               </>
+            ) : line.startsWith("boot complete") || line.startsWith("booting") ? (
+              <span className="text-ink">{line}</span>
             ) : (
               line || " "
             )}

@@ -124,21 +124,38 @@ export const GAMES: Game[] = [
   },
 ];
 
-export const ABOUT = {
-  prompt: "guest@haad:~$ cat about.txt",
-  headline: "Haad — 18 — building things that shouldn't work yet.",
-  paragraphs: [
-    "I've been coding since 13, back when I just wanted autoclickers and janky Minecraft cheats. Then I fell down the rabbit hole watching Michael Reeves, ThePrimeagen and a hundred indie devs — and never climbed back out.",
-    "Now it's game dev, emulation, and operating systems. I'm learning Rust and low-level guts while building PaperGenre, an ed-tech product I actually care about.",
-    "I like difficult problems and I learn fast.",
-  ],
-  footer: "Everything else is negotiable.",
-  currently: [
-    "writing a CHIP-8 + Game Boy emulator",
-    "learning Rust & OS internals",
-    "migrating VS Code → Emacs (for the old uncs)",
-  ],
-};
+export const ABOUT_TEXT = `Hi, I'm Haad.
+
+18 years old, doing my A-levels at LGS, Lahore.
+
+I've been writing code since I was 13. It started the way it
+should: Minecraft autoclickers and small cheats, because that
+was the kind of problem a 13-year-old is properly motivated
+to solve. I grew up on Michael Reeves chaos, Primeagen rants
+and small indie devs shipping games from their bedrooms, and
+just... kept going.
+
+WHAT I'M INTO
+  > game dev — shipped Roblox games (1.8M visits contributed),
+    built Pygame games you can play in the Arcade
+  > emulation — CHIP-8 and Game Boy emulators
+  > operating systems & low-level stuff — currently learning
+    Rust alongside OS development
+  > currently migrating from VSCode to Emacs so I can connect
+    with the old uncs
+
+WHAT I'M BUILDING
+  PaperGenre — an exam-prep platform for O/A-level students,
+  in beta with 300+ users. I'm a student sitting these exams
+  myself, so it's built from the inside.
+
+CREDENTIALS, SUCH AS THEY ARE
+  > Stanford Machine Learning Specialization
+  > Intern @ Qryptec (quantum cryptography, NUST 5G Lab)
+  > Hosted the LGS computer science olympiad
+
+I like difficult problems and I learn fast. Everything else
+is negotiable.`;
 
 export const CONTACT = {
   headline: "Let's build something.",

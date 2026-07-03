@@ -5,30 +5,30 @@ import { IconExtern } from "@/components/os/icons";
 
 export function ProjectsApp() {
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center gap-3 border-b border-line-soft px-5 py-2.5">
-        <span className="font-mono text-xs text-dim">
+    <div className="flex h-full flex-col bg-surface">
+      <div className="flex items-center gap-3 border-b-2 border-line-soft bg-surface-2 px-4 py-2">
+        <span className="font-pixel text-[10px] text-dim">
           {PROJECTS.length} items
         </span>
-        <span className="font-mono text-xs text-faint">sorted by impact</span>
+        <span className="font-mono text-[11px] text-faint">sorted by impact</span>
       </div>
 
-      <div className="os-scroll min-h-0 flex-1 overflow-y-auto p-5">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="os-scroll min-h-0 flex-1 overflow-y-auto p-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {PROJECTS.map((p) => {
-            const Card = (
+            const inner = (
               <div
-                className={`group relative flex h-full flex-col rounded-xl border bg-surface-2/60 p-4 transition-colors ${
+                className={`group flex h-full flex-col border-2 bg-surface-2/50 p-4 transition-colors ${
                   p.flagship
-                    ? "border-accent/40 hover:border-accent/70"
+                    ? "border-accent/60 hover:border-accent"
                     : "border-line-soft hover:border-line"
                 } ${p.link ? "cursor-pointer" : ""}`}
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-2">
                   <span
-                    className={`rounded-full border px-2 py-0.5 font-mono text-[10px] tracking-wider ${
+                    className={`border px-1.5 py-0.5 font-pixel text-[8px] tracking-wider ${
                       p.flagship
-                        ? "border-accent/50 bg-accent-soft text-accent"
+                        ? "border-accent/60 bg-accent-soft text-accent"
                         : "border-line text-dim"
                     }`}
                   >
@@ -40,13 +40,13 @@ export function ProjectsApp() {
                     </span>
                   )}
                 </div>
-                <h3 className="mt-2.5 font-serif text-xl font-medium tracking-tight text-ink">
+                <h3 className="mt-2.5 font-pixel text-[13px] leading-tight text-ink">
                   {p.title}
                 </h3>
-                <div className="mt-0.5 font-mono text-[11px] text-faint">
+                <div className="mt-1.5 font-mono text-[11px] text-faint">
                   {p.meta}
                 </div>
-                <p className="mt-2.5 font-mono text-xs leading-relaxed text-dim">
+                <p className="mt-2 font-mono text-xs leading-relaxed text-dim">
                   {p.description}
                 </p>
               </div>
@@ -59,10 +59,10 @@ export function ProjectsApp() {
                 rel="noreferrer"
                 className="focus-visible:outline-1 focus-visible:outline-accent"
               >
-                {Card}
+                {inner}
               </a>
             ) : (
-              <div key={p.slug}>{Card}</div>
+              <div key={p.slug}>{inner}</div>
             );
           })}
         </div>

@@ -2,7 +2,6 @@
 
 import { useRef, type ReactNode, type PointerEvent } from "react";
 import { useWM, type Win } from "./WindowManager";
-import { IconMinimize, IconClose, IconMaximize } from "./icons";
 
 export function Window({
   win,
@@ -30,13 +29,7 @@ export function Window({
   function onTitleDown(e: PointerEvent<HTMLDivElement>) {
     if (win.maximized) return;
     if ((e.target as HTMLElement).closest("button")) return;
-    drag.current = {
-      startX: e.clientX,
-      startY: e.clientY,
-      winX: win.x,
-      winY: win.y,
-      on: true,
-    };
+    drag.current = { startX: e.clientX, startY: e.clientY, winX: win.x, winY: win.y, on: true };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }
   function onTitleMove(e: PointerEvent<HTMLDivElement>) {
@@ -61,13 +54,7 @@ export function Window({
   function onResizeDown(e: PointerEvent<HTMLDivElement>) {
     if (win.maximized) return;
     e.stopPropagation();
-    resize.current = {
-      startX: e.clientX,
-      startY: e.clientY,
-      winW: win.w,
-      winH: win.h,
-      on: true,
-    };
+    resize.current = { startX: e.clientX, startY: e.clientY, winW: win.w, winH: win.h, on: true };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }
   function onResizeMove(e: PointerEvent<HTMLDivElement>) {
@@ -86,7 +73,7 @@ export function Window({
   }
 
   const maximizedStyle = win.maximized
-    ? { left: 8, top: 44, width: "calc(100% - 16px)", height: "calc(100% - 120px)" }
+    ? { left: 8, top: 44, width: "calc(100% - 16px)", height: "calc(100% - 116px)" }
     : { left: win.x, top: win.y, width: win.w, height: win.h };
 
   return (
@@ -94,52 +81,46 @@ export function Window({
       ref={frameRef}
       role="dialog"
       aria-label={win.title}
-      className={`win-enter absolute flex flex-col overflow-hidden rounded-xl border bg-surface max-md:!top-10 max-md:!left-0 max-md:!h-[calc(100%-40px)] max-md:!w-full max-md:rounded-none ${
-        focused ? "win-shadow border-line" : "win-shadow-dim border-line-soft opacity-90"
+      className={`win-enter absolute flex flex-col overflow-hidden border-2 bg-surface max-md:!top-10 max-md:!left-0 max-md:!h-[calc(100%-40px)] max-md:!w-full ${
+        focused ? "win-soft border-line" : "win-soft-dim border-line-soft opacity-95"
       } ${win.minimized ? "hidden" : ""}`}
       style={{ ...maximizedStyle, zIndex: win.z }}
       onPointerDown={() => dispatch({ type: "FOCUS", id: win.id })}
     >
       {/* Title bar */}
       <div
-        className="flex h-9 shrink-0 cursor-grab touch-none items-center border-b border-line-soft bg-surface-2 pr-2 pl-3.5 selectable-none active:cursor-grabbing"
+        className={`flex h-9 shrink-0 cursor-grab touch-none items-center gap-2 border-b-2 px-2.5 selectable-none active:cursor-grabbing ${
+          focused ? "border-line bg-surface-2" : "border-line-soft bg-surface-2/60"
+        }`}
         onPointerDown={onTitleDown}
         onPointerMove={onTitleMove}
         onPointerUp={onTitleUp}
         onDoubleClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
       >
-        <span
-          className={`h-1.5 w-1.5 rounded-full ${focused ? "bg-accent" : "bg-faint"}`}
-        />
-        <span className="ml-2.5 font-mono text-xs text-dim">{win.title}</span>
-        <div className="ml-auto flex items-center gap-1">
+        <span className="font-pixel text-[10px] tracking-wide text-dim">
+          {win.title}
+        </span>
+        <div className="ml-auto flex items-center gap-1.5">
           <TitleButton
             label="Minimize"
+            className="bg-line text-ink/70 hover:bg-dim hover:text-bg"
             onClick={() => dispatch({ type: "MINIMIZE", id: win.id })}
-          >
-            <IconMinimize />
-          </TitleButton>
+          />
           <TitleButton
             label="Maximize"
-            className="max-md:hidden"
+            className="bg-line text-ink/70 hover:bg-dim hover:text-bg max-md:hidden"
             onClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
-          >
-            <IconMaximize />
-          </TitleButton>
+          />
           <TitleButton
             label="Close"
-            danger
+            className="bg-accent text-bg hover:brightness-110"
             onClick={() => dispatch({ type: "CLOSE", id: win.id })}
-          >
-            <IconClose />
-          </TitleButton>
+          />
         </div>
       </div>
 
-      {/* Content */}
       <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
 
-      {/* Resize handle */}
       {!win.maximized && (
         <div
           className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none max-md:hidden"
@@ -154,16 +135,12 @@ export function Window({
 }
 
 function TitleButton({
-  children,
   label,
   onClick,
-  danger = false,
   className = "",
 }: {
-  children: ReactNode;
   label: string;
   onClick: () => void;
-  danger?: boolean;
   className?: string;
 }) {
   return (
@@ -171,13 +148,7 @@ function TitleButton({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className={`flex h-6 w-6 items-center justify-center rounded-md p-1 text-dim transition-colors focus-visible:outline-1 focus-visible:outline-accent ${
-        danger
-          ? "hover:bg-[rgba(224,122,95,0.18)] hover:text-[#e07a5f]"
-          : "hover:bg-line-soft hover:text-ink"
-      } ${className}`}
-    >
-      {children}
-    </button>
+      className={`h-4 w-4 border border-bg/30 transition-colors focus-visible:outline-1 focus-visible:outline-accent ${className}`}
+    />
   );
 }
