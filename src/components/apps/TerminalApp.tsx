@@ -2,42 +2,41 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useWM } from "@/components/os/WindowManager";
-import { ABOUT_TEXT, CONTACT, PROJECTS, type AppId } from "@/lib/data";
+import { ABOUT, CONTACT, PROJECTS, type AppId } from "@/lib/data";
 
-type Line = { text: string; kind?: "in" | "err" };
+type Line = { text: string; kind?: "in" | "err" | "accent" };
 
 const NEOFETCH = String.raw`
-  ██   ██  █████   █████  ██████
-  ██   ██ ██   ██ ██   ██ ██   ██
-  ███████ ███████ ███████ ██   ██
-  ██   ██ ██   ██ ██   ██ ██   ██
-  ██   ██ ██   ██ ██   ██ ██████
+  ██  ██  ████   ████  ████▄
+  ██████ ██▄▄██ ██▄▄██ ██  ██
+  ██  ██ ██  ██ ██  ██ ████▀
 
-  haad@haados
-  -----------
-  OS:       HaadOS v18.0 (student build)
-  Host:     LGS, Lahore
-  Uptime:   18 years
-  Shell:    a-levels (ongoing)
-  Editor:   vscode -> emacs (in progress)
-  Lang:     learning rust
-  Flagship: papergenre.com (300+ beta users)`;
+  guest@haados
+  ------------
+  os        haadOS v18 (student build)
+  host      LGS, Lahore
+  uptime    18 years
+  shell     a-levels (ongoing)
+  editor    vscode -> emacs (in progress)
+  lang      learning rust
+  flagship  papergenre.com (300+ beta users)
+  pet       one (1) cat, chases cursors`;
 
 const HELP = `commands:
-  help          this
-  ls            list apps & files
-  projects      list all projects
-  open <app>    open a window (about, projects, arcade, terminal, contact)
-  cat about.txt print the about file
-  neofetch      system info
-  whoami        who am i
-  clear         clear screen
-  exit          close terminal`;
+  help           this
+  ls             list files
+  projects       list all projects
+  open <app>     open a window (projects, about, arcade, terminal, contact)
+  cat about.txt  print the about file
+  neofetch       system info
+  whoami         who am i
+  clear          clear screen
+  exit           close terminal`;
 
 export function TerminalApp() {
   const { dispatch } = useWM();
   const [lines, setLines] = useState<Line[]>([
-    { text: "HaadOS terminal — type 'help' to get started." },
+    { text: "haadOS terminal — type 'help' to get started.", kind: "accent" },
   ]);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +55,7 @@ export function TerminalApp() {
 
   function run(raw: string) {
     const cmd = raw.trim();
-    print({ text: `haad@haados:~$ ${cmd}`, kind: "in" });
+    print({ text: `guest@haad:~$ ${cmd}`, kind: "in" });
     if (!cmd) return;
     const [name, ...args] = cmd.split(/\s+/);
     const arg = args.join(" ").toLowerCase();
@@ -67,19 +66,18 @@ export function TerminalApp() {
         break;
       case "ls":
         print(
-          "about.txt  projects/  arcade/  contact.txt  terminal  secrets/ (permission denied)"
+          "about.txt  projects/  arcade/  contact.card  secrets/ (permission denied)"
         );
         break;
       case "projects":
         print(
           ...PROJECTS.map(
-            (p) =>
-              `  ${p.filename.padEnd(24)} ${p.title}${p.stat ? ` — ${p.stat}` : ""}`
+            (p) => `  ${(p.title.toLowerCase() + " ").padEnd(18, "·")} ${p.meta}`
           )
         );
         break;
       case "open": {
-        const apps: AppId[] = ["about", "projects", "arcade", "terminal", "contact"];
+        const apps: AppId[] = ["projects", "about", "arcade", "terminal", "contact"];
         const target = apps.find((a) => arg.startsWith(a));
         if (target) {
           dispatch({ type: "OPEN", appId: target });
@@ -90,11 +88,19 @@ export function TerminalApp() {
         break;
       }
       case "cat":
-        if (arg.includes("about")) print(ABOUT_TEXT);
+        if (arg.includes("about"))
+          print(
+            ABOUT.headline,
+            "",
+            ...ABOUT.paragraphs,
+            "",
+            "// currently",
+            ...ABOUT.currently.map((c) => `  - ${c}`)
+          );
         else print({ text: `cat: ${arg || "?"}: no such file`, kind: "err" });
         break;
       case "neofetch":
-        print(NEOFETCH);
+        print({ text: NEOFETCH, kind: "accent" });
         break;
       case "whoami":
         print("haad — 18, a-levels @ LGS, builds things. see about.txt");
@@ -121,8 +127,9 @@ export function TerminalApp() {
       case "emacs":
         print("connecting with the old uncs... M-x butterfly");
         break;
-      case "vercel":
-        print("already deployed here, nice try");
+      case "cat!":
+      case "pet":
+        print("the cat is already out. it answers to nobody.");
         break;
       default:
         print({ text: `${name}: command not found. try 'help'`, kind: "err" });
@@ -131,22 +138,24 @@ export function TerminalApp() {
 
   return (
     <div
-      className="flex h-full flex-col bg-term-bg"
+      className="flex h-full flex-col bg-[#0a0f15]"
       onClick={() => inputRef.current?.focus()}
     >
       <div
         ref={scrollRef}
-        className="os-scroll min-h-0 flex-1 overflow-y-auto p-3"
+        className="os-scroll min-h-0 flex-1 overflow-y-auto p-4"
       >
         {lines.map((l, i) => (
           <pre
             key={i}
-            className={`font-term text-base leading-snug whitespace-pre-wrap ${
+            className={`font-mono text-xs leading-[1.65] whitespace-pre-wrap ${
               l.kind === "err"
-                ? "text-red"
+                ? "text-[#e07a5f]"
                 : l.kind === "in"
-                  ? "text-term-green"
-                  : "text-term-dim"
+                  ? "text-ink"
+                  : l.kind === "accent"
+                    ? "text-accent"
+                    : "text-dim"
             }`}
           >
             {l.text}
@@ -154,21 +163,19 @@ export function TerminalApp() {
         ))}
       </div>
       <form
-        className="flex items-center gap-2 border-t border-ink-soft px-3 py-2"
+        className="flex items-center gap-2 border-t border-line-soft px-4 py-2.5"
         onSubmit={(e) => {
           e.preventDefault();
           run(input);
           setInput("");
         }}
       >
-        <span className="font-term text-base text-term-green">
-          haad@haados:~$
-        </span>
+        <span className="font-mono text-xs text-accent">guest@haad:~$</span>
         <input
           ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="min-w-0 flex-1 bg-transparent font-term text-base text-term-green outline-none"
+          className="min-w-0 flex-1 bg-transparent font-mono text-xs text-ink outline-none"
           autoFocus
           spellCheck={false}
           autoComplete="off"

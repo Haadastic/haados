@@ -3,12 +3,15 @@
 import { useEffect } from "react";
 import { useWM } from "./WindowManager";
 import { Window } from "./Window";
-import { Taskbar } from "./Taskbar";
+import { MenuBar } from "./MenuBar";
+import { Dock } from "./Dock";
+import { Pet } from "./Pet";
+import { useTheme } from "./theme";
 import type { AppId } from "@/lib/data";
 import {
-  IconTxt,
   IconFolder,
-  IconJoystick,
+  IconFile,
+  IconGamepad,
   IconTerminal,
   IconMail,
 } from "./icons";
@@ -20,11 +23,11 @@ import { ContactApp } from "@/components/apps/ContactApp";
 
 const DESKTOP_ICONS: { appId: AppId; label: string; icon: React.ReactNode }[] =
   [
-    { appId: "about", label: "about.txt", icon: <IconTxt /> },
     { appId: "projects", label: "projects", icon: <IconFolder /> },
-    { appId: "arcade", label: "arcade", icon: <IconJoystick /> },
+    { appId: "about", label: "about.txt", icon: <IconFile /> },
+    { appId: "arcade", label: "arcade", icon: <IconGamepad /> },
     { appId: "terminal", label: "terminal", icon: <IconTerminal /> },
-    { appId: "contact", label: "contact.txt", icon: <IconMail /> },
+    { appId: "contact", label: "contact", icon: <IconMail /> },
   ];
 
 const APP_VIEWS: Record<AppId, React.ReactNode> = {
@@ -37,39 +40,41 @@ const APP_VIEWS: Record<AppId, React.ReactNode> = {
 
 export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
   const { state, dispatch } = useWM();
+  const { petOn } = useTheme();
   const topZ = Math.max(0, ...state.windows.map((w) => w.z));
 
   useEffect(() => {
     if (autoOpenAbout) {
-      const t = setTimeout(() => dispatch({ type: "OPEN", appId: "about" }), 250);
+      const t = setTimeout(() => dispatch({ type: "OPEN", appId: "about" }), 300);
       return () => clearTimeout(t);
     }
   }, [autoOpenAbout, dispatch]);
 
   return (
     <div className="wallpaper fixed inset-0 overflow-hidden">
-      {/* Desktop wordmark */}
-      <div className="pointer-events-none absolute right-5 bottom-16 text-right selectable-none max-md:hidden">
-        <div className="font-pixel text-4xl font-bold tracking-tight text-ink opacity-[0.16]">
-          HaadOS
-        </div>
-        <div className="font-mono text-xs text-ink opacity-[0.28]">
-          v18.0 — student build · Lahore
-        </div>
+      {/* Watermark */}
+      <div
+        className="pointer-events-none absolute -top-24 -left-8 font-serif italic selectable-none"
+        style={{ fontSize: "clamp(180px, 26vw, 420px)", lineHeight: 1, color: "var(--color-ink)", opacity: 0.035 }}
+      >
+        haadOS
       </div>
 
-      {/* Icons */}
-      <div className="absolute top-4 left-4 flex flex-col gap-1 max-md:right-4 max-md:grid max-md:grid-cols-4 max-md:gap-2">
+      <MenuBar />
+
+      {/* Desktop icons */}
+      <div className="absolute top-16 left-5 flex flex-col gap-2 max-md:right-5 max-md:grid max-md:grid-cols-4">
         {DESKTOP_ICONS.map(({ appId, label, icon }) => (
           <button
             key={appId}
             onClick={() => dispatch({ type: "OPEN", appId })}
-            className="group flex w-20 flex-col items-center gap-1.5 rounded-sm p-2 focus-visible:outline-2 focus-visible:outline-ink"
+            onDoubleClick={(e) => e.preventDefault()}
+            className="group flex w-[76px] flex-col items-center gap-1.5 rounded-lg p-2 transition-colors hover:bg-line-soft/50 focus-visible:outline-1 focus-visible:outline-accent"
           >
-            <span className="h-10 w-10 transition-transform group-hover:-translate-y-0.5 group-active:translate-y-0">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line-soft bg-surface/70 p-2.5 text-dim transition-colors group-hover:border-line group-hover:text-ink">
               {icon}
             </span>
-            <span className="border border-transparent bg-desk px-1 font-pixel text-[10px] leading-tight text-ink group-hover:border-ink group-hover:bg-yellow">
+            <span className="font-mono text-[11px] text-dim group-hover:text-ink">
               {label}
             </span>
           </button>
@@ -83,7 +88,8 @@ export function Desktop({ autoOpenAbout }: { autoOpenAbout: boolean }) {
         </Window>
       ))}
 
-      <Taskbar />
+      {petOn && <Pet />}
+      <Dock />
     </div>
   );
 }

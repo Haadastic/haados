@@ -3,23 +3,21 @@
 import { useState } from "react";
 import { GAMES, type Game } from "@/lib/data";
 
-const CART_COLORS: Record<Game["color"], string> = {
-  green: "bg-green",
-  orange: "bg-orange",
-  blue: "bg-blue",
-};
-
 export function ArcadeApp() {
   const [playing, setPlaying] = useState<Game | null>(null);
 
   if (playing?.playPath) {
     return (
-      <div className="flex h-full flex-col bg-term-bg">
-        <div className="flex items-center justify-between border-b-2 border-ink bg-paper px-3 py-1.5">
-          <span className="font-pixel text-[10px]">{playing.cartLabel}</span>
+      <div className="flex h-full flex-col">
+        <div className="flex items-center gap-3 border-b border-line-soft px-4 py-2">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+          <span className="font-mono text-xs text-ink">{playing.file}</span>
+          <span className="font-mono text-[11px] text-faint max-sm:hidden">
+            {playing.controls}
+          </span>
           <button
             onClick={() => setPlaying(null)}
-            className="border-2 border-ink bg-paper-dim px-2 py-0.5 font-mono text-xs hover:bg-red hover:text-paper"
+            className="ml-auto rounded-md border border-line-soft px-2.5 py-1 font-mono text-[11px] text-dim transition-colors hover:border-accent/50 hover:text-accent"
           >
             eject
           </button>
@@ -27,7 +25,7 @@ export function ArcadeApp() {
         <iframe
           src={playing.playPath}
           title={playing.title}
-          className="min-h-0 w-full flex-1"
+          className="min-h-0 w-full flex-1 bg-[#0a0f15]"
           allow="autoplay; fullscreen; gamepad"
         />
       </div>
@@ -35,50 +33,46 @@ export function ArcadeApp() {
   }
 
   return (
-    <div className="os-scroll h-full overflow-y-auto bg-paper p-5">
-      <p className="font-mono text-xs leading-relaxed text-ink-soft">
-        Pygame games compiled to WebAssembly — they run right here in the
-        browser. Pick a cartridge.
+    <div className="os-scroll h-full overflow-y-auto p-6 sm:p-7">
+      <h2 className="font-serif text-[26px] font-medium tracking-tight text-ink">
+        Pygames, in your browser.
+      </h2>
+      <p className="mt-1 font-mono text-xs text-dim">
+        Compiled to WebAssembly. Boot one right here — no downloads.
       </p>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-6 space-y-2.5">
         {GAMES.map((g) => (
           <div
             key={g.slug}
-            className="flex flex-col border-2 border-ink shadow-hard-sm"
+            className="flex items-center gap-4 rounded-xl border border-line-soft bg-surface-2/60 px-4 py-3.5"
           >
-            {/* Cartridge */}
-            <div className={`${CART_COLORS[g.color]} p-3 pb-4`}>
-              <div className="border-2 border-ink bg-paper px-2 py-3 text-center">
-                <div className="font-pixel text-[10px] font-bold">
-                  {g.cartLabel}
-                </div>
+            <div className="min-w-0">
+              <div className="font-mono text-[13px] text-ink">{g.file}</div>
+              <div className="mt-0.5 font-mono text-[11px] text-faint">
+                {g.meta}
               </div>
-              <div className="mx-auto mt-2 h-1.5 w-2/3 bg-ink opacity-30" />
-              <div className="mx-auto mt-1 h-1.5 w-2/3 bg-ink opacity-30" />
             </div>
-            <div className="flex flex-1 flex-col gap-2 border-t-2 border-ink bg-paper-dim p-3">
-              <div className="font-mono text-xs leading-snug">{g.blurb}</div>
-              {g.playPath ? (
-                <button
-                  onClick={() => setPlaying(g)}
-                  className="mt-auto border-2 border-ink bg-ink px-3 py-1.5 font-pixel text-[10px] text-paper hover:bg-green"
-                >
-                  ▶ PLAY
-                </button>
-              ) : (
-                <div className="mt-auto border-2 border-dashed border-ink-soft px-3 py-1.5 text-center font-pixel text-[9px] text-ink-soft">
-                  INSERTING CARTRIDGE…
-                </div>
-              )}
-            </div>
+            {g.playPath ? (
+              <button
+                onClick={() => setPlaying(g)}
+                className="ml-auto shrink-0 rounded-lg border border-accent/50 bg-accent-soft px-4 py-1.5 font-mono text-xs text-accent transition-colors hover:bg-accent hover:text-bg"
+              >
+                ▶ play
+              </button>
+            ) : (
+              <span className="ml-auto shrink-0 rounded-full border border-line px-2.5 py-1 font-mono text-[10px] tracking-wider text-faint">
+                QUEUED
+              </span>
+            )}
           </div>
         ))}
       </div>
 
-      <p className="mt-4 font-mono text-[11px] text-ink-soft">
-        note: cartridges being dumped from the originals — playable builds
-        landing here soon.
+      <p className="mt-5 font-mono text-[11px] leading-relaxed text-faint">
+        first launch downloads the Python runtime (~15 MB, one time). click
+        inside the game once it loads. keyboard needed — phones are spectators
+        here.
       </p>
     </div>
   );

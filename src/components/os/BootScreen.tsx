@@ -10,16 +10,16 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setCount(BOOT_LINES.length);
-      const t = setTimeout(onDone, 400);
+      const t = setTimeout(onDone, 350);
       return () => clearTimeout(t);
     }
     if (done) {
-      const t = setTimeout(onDone, 900);
+      const t = setTimeout(onDone, 800);
       return () => clearTimeout(t);
     }
     const t = setTimeout(
       () => setCount((c) => c + 1),
-      BOOT_LINES[count] === "" ? 220 : 110
+      BOOT_LINES[count] === "" ? 180 : 95
     );
     return () => clearTimeout(t);
   }, [count, done, onDone]);
@@ -35,19 +35,32 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
   }, [onDone]);
 
   return (
-    <div className="fixed inset-0 z-50 cursor-pointer bg-term-bg p-6 sm:p-10">
-      <div className="font-term text-lg leading-relaxed text-term-green sm:text-xl">
+    <div className="fixed inset-0 z-50 cursor-pointer bg-bg p-6 sm:p-12">
+      <div className="font-mono text-[13px] leading-[1.7] text-dim sm:text-sm">
         {BOOT_LINES.slice(0, count).map((line, i) => (
           <div
             key={i}
-            className={`whitespace-pre ${line.includes("WARN") ? "text-yellow" : ""}`}
+            className={`whitespace-pre ${
+              line.includes("[ warn ]")
+                ? "text-[#d9b45f]"
+                : line.includes("[ ok ]")
+                  ? ""
+                  : "text-ink"
+            }`}
           >
-            {line || " "}
+            {line.includes("[ ok ]") ? (
+              <>
+                <span className="text-accent">{"  [ ok ] "}</span>
+                {line.slice(9)}
+              </>
+            ) : (
+              line || " "
+            )}
           </div>
         ))}
-        {!done && <span className="caret-blink">█</span>}
+        {!done && <span className="caret-blink text-accent">▌</span>}
       </div>
-      <div className="absolute bottom-6 left-6 font-term text-base text-term-dim sm:bottom-10 sm:left-10">
+      <div className="absolute bottom-8 left-6 font-mono text-xs text-faint sm:left-12">
         press any key to skip
       </div>
     </div>

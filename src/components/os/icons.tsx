@@ -1,11 +1,15 @@
-/* Pixel-art style SVG icons, drawn on a 16x16 grid with crisp edges. */
+/* Line icons, 24-grid, 1.5px stroke — quiet and precise. */
 
-function Px({ children }: { children: React.ReactNode }) {
+function I({ children }: { children: React.ReactNode }) {
   return (
     <svg
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="h-full w-full"
-      shapeRendering="crispEdges"
       aria-hidden
     >
       {children}
@@ -13,75 +17,93 @@ function Px({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function IconTxt() {
-  return (
-    <Px>
-      <path d="M3 1h8l2 2v12H3z" fill="#f6f1e3" stroke="#1c1a17" strokeWidth="1" />
-      <path d="M11 1v2h2" fill="none" stroke="#1c1a17" strokeWidth="1" />
-      <rect x="5" y="6" width="6" height="1" fill="#e8590c" />
-      <rect x="5" y="8" width="6" height="1" fill="#1c1a17" />
-      <rect x="5" y="10" width="4" height="1" fill="#1c1a17" />
-    </Px>
-  );
-}
-
 export function IconFolder() {
   return (
-    <Px>
-      <path d="M1 3h5l1 2h8v8H1z" fill="#2464c4" stroke="#1c1a17" strokeWidth="1" />
-      <rect x="1" y="6" width="14" height="1" fill="#f6f1e3" opacity="0.5" />
-    </Px>
+    <I>
+      <path d="M3.5 6.5a2 2 0 0 1 2-2h3.6l2 2.5h7.4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" />
+    </I>
   );
 }
 
-export function IconJoystick() {
+export function IconFile() {
   return (
-    <Px>
-      <rect x="2" y="9" width="12" height="5" fill="#2f9e44" stroke="#1c1a17" strokeWidth="1" />
-      <rect x="7" y="4" width="2" height="5" fill="#1c1a17" />
-      <circle cx="8" cy="3.5" r="2.5" fill="#e03131" stroke="#1c1a17" strokeWidth="1" />
-      <rect x="11" y="10.5" width="2" height="2" fill="#f5b41f" stroke="#1c1a17" strokeWidth="0.5" />
-    </Px>
+    <I>
+      <path d="M6.5 3.5h7l4 4v13h-11z" />
+      <path d="M13.5 3.5v4h4" />
+      <path d="M9 12h6M9 15.5h4.5" />
+    </I>
+  );
+}
+
+export function IconGamepad() {
+  return (
+    <I>
+      <path d="M7 8.5h10a4.5 4.5 0 0 1 4.4 5.4l-.6 3a2.6 2.6 0 0 1-4.6 1l-1.4-1.9H9.2l-1.4 1.9a2.6 2.6 0 0 1-4.6-1l-.6-3A4.5 4.5 0 0 1 7 8.5z" />
+      <path d="M8.5 12v3M7 13.5h3" />
+      <circle cx="15.4" cy="12.6" r="0.2" />
+      <circle cx="17.6" cy="14.4" r="0.2" />
+    </I>
   );
 }
 
 export function IconTerminal() {
   return (
-    <Px>
-      <rect x="1" y="2" width="14" height="12" fill="#141210" stroke="#1c1a17" strokeWidth="1" />
-      <path d="M3.5 5.5 6 8l-2.5 2.5" fill="none" stroke="#6fdd8b" strokeWidth="1.4" />
-      <rect x="7" y="10" width="5" height="1.4" fill="#6fdd8b" />
-    </Px>
+    <I>
+      <rect x="3" y="4.5" width="18" height="15" rx="2" />
+      <path d="m7 9.5 3 2.75L7 15" />
+      <path d="M12.5 15H17" />
+    </I>
   );
 }
 
 export function IconMail() {
   return (
-    <Px>
-      <rect x="1" y="3" width="14" height="10" fill="#8f3fb8" stroke="#1c1a17" strokeWidth="1" />
-      <path d="M1 3l7 6 7-6" fill="none" stroke="#f6f1e3" strokeWidth="1.2" />
-    </Px>
+    <I>
+      <rect x="3" y="5.5" width="18" height="13" rx="2" />
+      <path d="m3.5 7 8.5 6 8.5-6" />
+    </I>
   );
 }
 
-export function IconPaper() {
+export function IconExtern() {
   return (
-    <Px>
-      <rect x="2" y="2" width="12" height="12" fill="#1c1a17" stroke="#1c1a17" strokeWidth="1" />
-      <rect x="4" y="4" width="8" height="8" fill="#f6f1e3" />
-      <rect x="5" y="6" width="6" height="1" fill="#e8590c" />
-      <rect x="5" y="8" width="6" height="1" fill="#1c1a17" />
-      <rect x="5" y="10" width="3" height="1" fill="#1c1a17" />
-    </Px>
+    <I>
+      <path d="M9 6h9v9" />
+      <path d="M18 6 6 18" />
+    </I>
   );
 }
 
-export function IconCart({ color = "#2f9e44" }: { color?: string }) {
+export function IconMinimize() {
   return (
-    <Px>
-      <path d="M3 2h10v12H3z" fill={color} stroke="#1c1a17" strokeWidth="1" />
-      <rect x="5" y="4" width="6" height="4" fill="#f6f1e3" stroke="#1c1a17" strokeWidth="0.5" />
-      <rect x="5" y="10" width="6" height="2" fill="#1c1a17" opacity="0.35" />
-    </Px>
+    <I>
+      <path d="M6 12h12" />
+    </I>
+  );
+}
+
+export function IconClose() {
+  return (
+    <I>
+      <path d="m7 7 10 10M17 7 7 17" />
+    </I>
+  );
+}
+
+export function IconMaximize() {
+  return (
+    <I>
+      <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
+    </I>
+  );
+}
+
+export function IconCat() {
+  return (
+    <I>
+      <path d="M5.5 10.5V5l3 2.5h7L18.5 5v5.5a6.5 6.5 0 0 1-13 0z" />
+      <path d="M9.5 12h.01M14.5 12h.01" strokeWidth="2" />
+      <path d="M10.5 15c.5.6 2.5.6 3 0" />
+    </I>
   );
 }

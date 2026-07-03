@@ -2,15 +2,7 @@
 
 import { useRef, type ReactNode, type PointerEvent } from "react";
 import { useWM, type Win } from "./WindowManager";
-import type { AppId } from "@/lib/data";
-
-const ACCENTS: Record<AppId, string> = {
-  about: "bg-orange",
-  projects: "bg-blue",
-  arcade: "bg-green",
-  terminal: "bg-ink",
-  contact: "bg-purple",
-};
+import { IconMinimize, IconClose, IconMaximize } from "./icons";
 
 export function Window({
   win,
@@ -30,8 +22,8 @@ export function Window({
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     return {
-      x: Math.min(Math.max(x, -win.w + 80), vw - 80),
-      y: Math.min(Math.max(y, 0), vh - 88),
+      x: Math.min(Math.max(x, -win.w + 96), vw - 96),
+      y: Math.min(Math.max(y, 40), vh - 72),
     };
   }
 
@@ -80,21 +72,21 @@ export function Window({
   }
   function onResizeMove(e: PointerEvent<HTMLDivElement>) {
     if (!resize.current.on || !frameRef.current) return;
-    const w = Math.max(320, resize.current.winW + e.clientX - resize.current.startX);
-    const h = Math.max(220, resize.current.winH + e.clientY - resize.current.startY);
+    const w = Math.max(360, resize.current.winW + e.clientX - resize.current.startX);
+    const h = Math.max(240, resize.current.winH + e.clientY - resize.current.startY);
     frameRef.current.style.width = `${w}px`;
     frameRef.current.style.height = `${h}px`;
   }
   function onResizeUp(e: PointerEvent<HTMLDivElement>) {
     if (!resize.current.on) return;
     resize.current.on = false;
-    const w = Math.max(320, resize.current.winW + e.clientX - resize.current.startX);
-    const h = Math.max(220, resize.current.winH + e.clientY - resize.current.startY);
+    const w = Math.max(360, resize.current.winW + e.clientX - resize.current.startX);
+    const h = Math.max(240, resize.current.winH + e.clientY - resize.current.startY);
     dispatch({ type: "MOVE", id: win.id, x: win.x, y: win.y, w, h });
   }
 
   const maximizedStyle = win.maximized
-    ? { left: 0, top: 0, width: "100%", height: "calc(100% - 52px)" }
+    ? { left: 8, top: 44, width: "calc(100% - 16px)", height: "calc(100% - 120px)" }
     : { left: win.x, top: win.y, width: win.w, height: win.h };
 
   return (
@@ -102,44 +94,44 @@ export function Window({
       ref={frameRef}
       role="dialog"
       aria-label={win.title}
-      className={`absolute flex flex-col border-2 border-ink bg-paper max-md:!inset-0 max-md:!h-[calc(100%-52px)] max-md:!w-full ${
-        focused ? "shadow-hard" : "shadow-hard-sm opacity-95"
+      className={`win-enter absolute flex flex-col overflow-hidden rounded-xl border bg-surface max-md:!top-10 max-md:!left-0 max-md:!h-[calc(100%-40px)] max-md:!w-full max-md:rounded-none ${
+        focused ? "win-shadow border-line" : "win-shadow-dim border-line-soft opacity-90"
       } ${win.minimized ? "hidden" : ""}`}
       style={{ ...maximizedStyle, zIndex: win.z }}
       onPointerDown={() => dispatch({ type: "FOCUS", id: win.id })}
     >
       {/* Title bar */}
       <div
-        className={`flex h-9 shrink-0 cursor-grab touch-none items-center gap-2 border-b-2 border-ink px-2 selectable-none active:cursor-grabbing ${
-          focused ? ACCENTS[win.appId] : "bg-ink-soft"
-        }`}
+        className="flex h-9 shrink-0 cursor-grab touch-none items-center border-b border-line-soft bg-surface-2 pr-2 pl-3.5 selectable-none active:cursor-grabbing"
         onPointerDown={onTitleDown}
         onPointerMove={onTitleMove}
         onPointerUp={onTitleUp}
         onDoubleClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
       >
-        <span className="font-pixel text-[11px] tracking-wide text-paper">
-          {win.title}
-        </span>
-        <div className="ml-auto flex items-center gap-1.5">
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${focused ? "bg-accent" : "bg-faint"}`}
+        />
+        <span className="ml-2.5 font-mono text-xs text-dim">{win.title}</span>
+        <div className="ml-auto flex items-center gap-1">
           <TitleButton
             label="Minimize"
             onClick={() => dispatch({ type: "MINIMIZE", id: win.id })}
           >
-            _
+            <IconMinimize />
           </TitleButton>
           <TitleButton
             label="Maximize"
             className="max-md:hidden"
             onClick={() => dispatch({ type: "TOGGLE_MAX", id: win.id })}
           >
-            □
+            <IconMaximize />
           </TitleButton>
           <TitleButton
             label="Close"
+            danger
             onClick={() => dispatch({ type: "CLOSE", id: win.id })}
           >
-            ×
+            <IconClose />
           </TitleButton>
         </div>
       </div>
@@ -150,14 +142,12 @@ export function Window({
       {/* Resize handle */}
       {!win.maximized && (
         <div
-          className="absolute -right-1 -bottom-1 h-5 w-5 cursor-nwse-resize touch-none max-md:hidden"
+          className="absolute right-0 bottom-0 h-4 w-4 cursor-nwse-resize touch-none max-md:hidden"
           onPointerDown={onResizeDown}
           onPointerMove={onResizeMove}
           onPointerUp={onResizeUp}
           aria-hidden
-        >
-          <div className="absolute right-1.5 bottom-1.5 h-2.5 w-2.5 border-r-2 border-b-2 border-ink" />
-        </div>
+        />
       )}
     </div>
   );
@@ -167,11 +157,13 @@ function TitleButton({
   children,
   label,
   onClick,
+  danger = false,
   className = "",
 }: {
   children: ReactNode;
   label: string;
   onClick: () => void;
+  danger?: boolean;
   className?: string;
 }) {
   return (
@@ -179,7 +171,11 @@ function TitleButton({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className={`flex h-6 w-6 items-center justify-center border-2 border-ink bg-paper font-mono text-sm leading-none font-bold text-ink hover:bg-yellow focus-visible:outline-2 focus-visible:outline-paper ${className}`}
+      className={`flex h-6 w-6 items-center justify-center rounded-md p-1 text-dim transition-colors focus-visible:outline-1 focus-visible:outline-accent ${
+        danger
+          ? "hover:bg-[rgba(224,122,95,0.18)] hover:text-[#e07a5f]"
+          : "hover:bg-line-soft hover:text-ink"
+      } ${className}`}
     >
       {children}
     </button>

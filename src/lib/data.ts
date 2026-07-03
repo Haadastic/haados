@@ -7,13 +7,10 @@ export type AppId =
 
 export type Project = {
   slug: string;
-  filename: string;
+  chip: string;
   title: string;
-  year: string;
-  kind: string;
-  stat?: string;
-  description: string[];
-  tags: string[];
+  meta: string;
+  description: string;
   link?: { label: string; url: string };
   flagship?: boolean;
 };
@@ -21,201 +18,151 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     slug: "papergenre",
-    filename: "papergenre.exe",
+    chip: "FLAGSHIP",
     title: "PaperGenre",
-    year: "2025 — now",
-    kind: "SaaS · EdTech",
-    stat: "300+ beta users",
-    flagship: true,
-    description: [
-      "An exam-prep platform for O/A-level students: past-paper practice without the tutor tax. Currently in beta with around 300 users and growing.",
-      "This is the project I care about most — I'm a student sitting these exams myself, so every feature comes from a real complaint. Ditch the tutor.",
-    ],
-    tags: ["Next.js", "TypeScript", "Supabase", "Python"],
+    meta: "SaaS · beta · ~300 users",
+    description:
+      "Ed-tech product I actually care about. Past-paper prep for O/A-level students — built by someone sitting the exams. Live and growing.",
     link: { label: "papergenre.com", url: "https://papergenre.com" },
-  },
-  {
-    slug: "dataset-builder",
-    filename: "dataset_builder.py",
-    title: "PaperGenre Dataset Builder",
-    year: "2025 — now",
-    kind: "Internal tooling",
-    description: [
-      "The unglamorous machine behind PaperGenre: a UI for scraping, extracting and classifying thousands of past-paper questions into a clean, structured dataset.",
-      "Handles PDF extraction, question segmentation and topic classification — the data pipeline that makes the product possible.",
-    ],
-    tags: ["Python", "Data pipeline", "UI"],
-  },
-  {
-    slug: "gameboy-emulator",
-    filename: "gameboy_emu",
-    title: "Game Boy Emulator",
-    year: "Ongoing",
-    kind: "Emulation",
-    description: [
-      "An emulator for the Nintendo Game Boy: CPU instruction set, memory bus, timers and the picture processing unit, built from the hardware documentation.",
-      "Emulation is my favorite rabbit hole — it's the project that pulled me into low-level programming and operating systems.",
-    ],
-    tags: ["Emulation", "Low-level"],
-  },
-  {
-    slug: "chip8-emulator",
-    filename: "chip8_emu",
-    title: "CHIP-8 Emulator",
-    year: "Ongoing",
-    kind: "Emulation",
-    description: [
-      "The classic first emulator project: a CHIP-8 virtual machine with a full opcode interpreter, display and input handling — the gateway drug that led to the Game Boy emulator.",
-    ],
-    tags: ["Emulation", "Low-level"],
+    flagship: true,
   },
   {
     slug: "discord-bot",
-    filename: "discord_bot.py",
-    title: "Discord Server Bot",
-    year: "2021",
-    kind: "Bot · Community",
-    stat: "1,000+ users",
-    description: [
-      "A custom bot for a community server, deployed in 2021 — moderation, utilities and server-specific features. Over 1,000 users have used it.",
-      "One of the first things I shipped that strangers actually relied on.",
-    ],
-    tags: ["Python", "Discord API"],
+    chip: "COMMUNITY",
+    title: "Discord Bot",
+    meta: "1000+ users · since 2021",
+    description: "Custom-server bot that just kept getting used.",
+  },
+  {
+    slug: "emulators",
+    chip: "LOW-LEVEL",
+    title: "Emulators",
+    meta: "CHIP-8 · Game Boy",
+    description:
+      "Writing the guts of old machines, one opcode at a time.",
+  },
+  {
+    slug: "pygame-trio",
+    chip: "GAMES",
+    title: "Pygame Trio",
+    meta: "Ninja · Sprout Land · Monsters",
+    description:
+      "Three full games — playable right now in the arcade, compiled to WebAssembly.",
   },
   {
     slug: "roblox",
-    filename: "roblox_games.rbxl",
-    title: "Roblox Games",
-    year: "2020 — 2022",
-    kind: "Game dev · Lua",
-    stat: "1.8M visits contributed",
-    description: [
-      "Worked as a scripter and indie dev on Roblox, shipping two games and contributing to 1.8 million visits.",
-      "This is where I learned that shipping a game and keeping players is a completely different problem from writing code.",
-    ],
-    tags: ["Lua", "Roblox Studio", "Game design"],
-  },
-  {
-    slug: "lgs-olympiad",
-    filename: "lgs_olympiad.md",
-    title: "LGS Olympiad",
-    year: "2024",
-    kind: "Event · Organizing",
-    description: [
-      "Hosted a computer science olympiad at LGS — organizing problems, logistics and participants for a school-wide competitive programming event.",
-    ],
-    tags: ["Organizing", "Competitive programming"],
+    chip: "GAMES",
+    title: "Roblox",
+    meta: "1.8M+ visits",
+    description: "Scripter + indie dev across two shipped games.",
   },
   {
     slug: "qryptec",
-    filename: "qryptec_internship.pdf",
-    title: "Qryptec — Intern",
-    year: "2025",
-    kind: "Internship · Quantum cryptography",
-    description: [
-      "Interned at Qryptec, working on quantum cryptography at the NUST 5G Lab — my first taste of research-grade engineering.",
-    ],
-    tags: ["Quantum cryptography", "Research"],
+    chip: "RESEARCH",
+    title: "Qryptec",
+    meta: "quantum internship · NUST 5G",
+    description: "Quantum cryptography at the NUST 5G Lab.",
+  },
+  {
+    slug: "dataset-builder",
+    chip: "TOOLING",
+    title: "Dataset Builder",
+    meta: "Python · internal",
+    description:
+      "The machine behind PaperGenre — scraping, extracting and classifying thousands of past-paper questions.",
+  },
+  {
+    slug: "lgs-olympiad",
+    chip: "EVENT",
+    title: "LGS Olympiad",
+    meta: "organizer · 2024",
+    description: "Hosted the computer science olympiad at LGS.",
   },
   {
     slug: "stanford-ml",
-    filename: "stanford_ml.cert",
-    title: "Stanford Machine Learning Specialization",
-    year: "Certificate",
-    kind: "Certification",
-    description: [
-      "Completed the Stanford Machine Learning Specialization (Andrew Ng) — supervised learning, neural networks, and the math underneath the magic.",
-    ],
-    tags: ["ML", "Certification"],
+    chip: "CERT",
+    title: "Stanford ML",
+    meta: "specialization",
+    description:
+      "Machine Learning Specialization (Andrew Ng) — the math underneath the magic.",
   },
 ];
 
 export type Game = {
   slug: string;
-  cartLabel: string;
+  file: string;
   title: string;
-  blurb: string;
-  color: "green" | "orange" | "blue";
-  // Path to a pygbag build under /public/games/<slug>/index.html, when available
+  meta: string;
+  controls: string;
   playPath?: string;
 };
 
 export const GAMES: Game[] = [
   {
-    slug: "zelda",
-    cartLabel: "HYRULE.PY",
-    title: "Zelda-like",
-    blurb: "Top-down action adventure built in Pygame — combat, enemies, magic.",
-    color: "green",
+    slug: "ninja",
+    file: "ninja.py",
+    title: "Ninja",
+    meta: "Pygame · 2D platformer",
+    controls: "arrows to move · up jumps · X dashes",
+    playPath: "/games/ninja/index.html",
   },
   {
     slug: "stardew",
-    cartLabel: "VALLEY.PY",
-    title: "Stardew-like",
-    blurb: "Farming sim built in Pygame — tools, crops, day/night cycle.",
-    color: "orange",
+    file: "sprout_land.py",
+    title: "Sprout Land",
+    meta: "Pygame · farming sim",
+    controls: "arrows · Q/E switch tools · Space acts · Enter shop",
+    playPath: "/games/stardew/index.html",
   },
   {
-    slug: "platformer",
-    cartLabel: "JUMP.PY",
-    title: "Platformer",
-    blurb: "Tight-controls 2D platformer built in Pygame.",
-    color: "blue",
+    slug: "monsters",
+    file: "monsters.py",
+    title: "Monster Hunter",
+    meta: "Pygame · creature battles",
+    controls: "WASD/arrows · Space confirms · Enter index",
+    playPath: "/games/monsters/index.html",
   },
 ];
 
-export const ABOUT_TEXT = `Hi, I'm Haad.
-
-18 years old, doing my A-levels at LGS, Lahore.
-
-I've been writing code since I was 13. It started the way it
-should: Minecraft autoclickers and small cheats, because that
-was the kind of problem a 13-year-old is properly motivated
-to solve. I grew up on Michael Reeves chaos, Primeagen rants
-and small indie devs shipping games from their bedrooms, and
-just... kept going.
-
-WHAT I'M INTO
-  > game dev — shipped Roblox games (1.8M visits contributed),
-    built Pygame games you can play in the Arcade
-  > emulation — CHIP-8 and Game Boy emulators
-  > operating systems & low-level stuff — currently learning
-    Rust alongside OS development
-  > currently migrating from VSCode to Emacs so I can connect
-    with the old uncs
-
-WHAT I'M BUILDING
-  PaperGenre — an exam-prep platform for O/A-level students,
-  in beta with 300+ users. I'm a student sitting these exams
-  myself, so it's built from the inside.
-
-CREDENTIALS, SUCH AS THEY ARE
-  > Stanford Machine Learning Specialization
-  > Intern @ Qryptec (quantum cryptography, NUST 5G Lab)
-  > Hosted the LGS computer science olympiad
-
-I like difficult problems and I learn fast. Everything else
-is negotiable.`;
+export const ABOUT = {
+  prompt: "guest@haad:~$ cat about.txt",
+  headline: "Haad — 18 — building things that shouldn't work yet.",
+  paragraphs: [
+    "I've been coding since 13, back when I just wanted autoclickers and janky Minecraft cheats. Then I fell down the rabbit hole watching Michael Reeves, ThePrimeagen and a hundred indie devs — and never climbed back out.",
+    "Now it's game dev, emulation, and operating systems. I'm learning Rust and low-level guts while building PaperGenre, an ed-tech product I actually care about.",
+    "I like difficult problems and I learn fast.",
+  ],
+  footer: "Everything else is negotiable.",
+  currently: [
+    "writing a CHIP-8 + Game Boy emulator",
+    "learning Rust & OS internals",
+    "migrating VS Code → Emacs (for the old uncs)",
+  ],
+};
 
 export const CONTACT = {
+  headline: "Let's build something.",
+  sub: "Preferably something hard.",
   email: "papergenre@gmail.com",
   github: "https://github.com/haadastic",
+  githubLabel: "github.com/haadastic",
   papergenre: "https://papergenre.com",
+  papergenreLabel: "papergenre.com",
 };
 
 export const BOOT_LINES = [
-  "HaadBIOS v1.8 — (C) 2013-2026 Haad Systems",
-  "CPU: Teenage Brain @ 4.0GHz (unstable before 10am)",
-  "Memory test: 640K OK — should be enough for anybody",
+  "haadbios v1.8 — (c) 2013-2026 haad systems",
+  "cpu: teenage brain @ 4.0GHz (unstable before 10am)",
+  "memory test: 640K ok — should be enough for anybody",
   "",
-  "Booting HaadOS ...",
-  "  [ OK ] minecraft_autoclicker.jar ..... deprecated (2013)",
-  "  [ OK ] roblox_games.rbxl ............. 1.8M visits served",
-  "  [ OK ] discord_bot.py ................ 1,000+ users",
-  "  [ OK ] chip8_emu, gameboy_emu ........ cycles accurate-ish",
-  "  [ OK ] papergenre.exe ................ 300+ beta users",
-  "  [ WARN ] emacs_config.el ............. learning curve detected",
-  "  [ OK ] rustup ........................ borrow checker appeased",
+  "booting haadOS ...",
+  "  [ ok ] minecraft_autoclicker.jar ..... deprecated (2013)",
+  "  [ ok ] roblox_games.rbxl ............. 1.8M visits served",
+  "  [ ok ] discord_bot.py ................ 1,000+ users",
+  "  [ ok ] chip8, gameboy ................ cycles accurate-ish",
+  "  [ ok ] papergenre.exe ................ 300+ beta users",
+  "  [ warn ] emacs_config.el ............. learning curve detected",
+  "  [ ok ] oneko.gif ..................... one (1) cat attached",
   "",
-  "Boot complete. Welcome to HaadOS.",
+  "boot complete. welcome.",
 ];

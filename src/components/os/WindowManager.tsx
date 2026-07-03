@@ -36,11 +36,11 @@ const APP_DEFAULTS: Record<
   AppId,
   { title: string; w: number; h: number }
 > = {
-  about: { title: "about.txt", w: 560, h: 520 },
-  projects: { title: "projects", w: 760, h: 540 },
-  arcade: { title: "arcade", w: 700, h: 520 },
-  terminal: { title: "terminal", w: 640, h: 420 },
-  contact: { title: "contact.txt", w: 460, h: 360 },
+  about: { title: "about.txt", w: 540, h: 560 },
+  projects: { title: "~/projects", w: 780, h: 560 },
+  arcade: { title: "arcade", w: 900, h: 620 },
+  terminal: { title: "terminal", w: 620, h: 400 },
+  contact: { title: "contact.card", w: 440, h: 420 },
 };
 
 function reducer(state: State, action: Action): State {
@@ -63,8 +63,8 @@ function reducer(state: State, action: Action): State {
       const vh = typeof window !== "undefined" ? window.innerHeight : 800;
       const w = Math.min(def.w, vw - 24);
       const h = Math.min(def.h, vh - 90);
-      const x = Math.max(12, (vw - w) / 2 + ((idx % 5) - 2) * 36);
-      const y = Math.max(12, (vh - 48 - h) / 2 + ((idx % 4) - 1) * 28);
+      const x = Math.max(12, (vw - w) / 2 + ((idx % 5) - 2) * 40);
+      const y = Math.max(48, (vh - 72 - h) / 2 + ((idx % 4) - 1) * 30);
       return {
         nextZ: state.nextZ + 1,
         windows: [

@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { WindowProvider } from "./WindowManager";
+import { ThemeProvider } from "./theme";
 import { Desktop } from "./Desktop";
 import { BootScreen } from "./BootScreen";
 
 export function HaadOS() {
-  // null = not decided yet (avoids SSR/client flash), then "boot" | "desktop"
+  // null = undecided (avoids SSR flash), then "boot" | "desktop"
   const [phase, setPhase] = useState<null | "boot" | "desktop">(null);
   const [booted, setBooted] = useState(false);
 
@@ -22,16 +23,18 @@ export function HaadOS() {
   }, []);
 
   if (phase === null) {
-    return <div className="fixed inset-0 bg-term-bg" />;
+    return <div className="fixed inset-0 bg-bg" />;
   }
 
   return (
-    <WindowProvider>
-      {phase === "boot" ? (
-        <BootScreen onDone={finishBoot} />
-      ) : (
-        <Desktop autoOpenAbout={booted} />
-      )}
-    </WindowProvider>
+    <ThemeProvider>
+      <WindowProvider>
+        {phase === "boot" ? (
+          <BootScreen onDone={finishBoot} />
+        ) : (
+          <Desktop autoOpenAbout={booted} />
+        )}
+      </WindowProvider>
+    </ThemeProvider>
   );
 }
