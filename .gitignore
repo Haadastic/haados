@@ -3,8 +3,6 @@ node_modules/
 out/
 __pycache__/
 games-src/*/build/
-.env
-.env.local
 .tmp/
 *.tsbuildinfo
 next-env.d.ts
@@ -17,3 +15,4 @@ CLAUDE.md
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+config.bat
